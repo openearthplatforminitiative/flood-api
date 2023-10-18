@@ -1,0 +1,24 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: apps-flood-api
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: flood-api
+  namespace: apps-flood-api
+  finalizers:
+  - resources-finalizer.argocd.argoproj.io
+spec:
+  destination:
+    namespace: apps-flood-api
+    server: https://kubernetes.default.svc
+  project: apps
+  source:
+    path: deployment/
+    repoURL: https://github.com/openearthplatforminitiative/flood-api
+    targetRevision: HEAD
+  syncPolicy:
+    automated:
+      prune: true
