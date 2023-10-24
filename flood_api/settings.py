@@ -7,3 +7,9 @@ class Settings(BaseSettings):
     uvicorn_host: str = "0.0.0.0"
     uvicorn_reload: bool = True
     uvicorn_proxy_headers: bool = False
+    database_url: str = (
+        "postgresql+psycopg2://postgres:postgres@localhost:5432/postgres"
+    )
+
+
+settings = Settings()

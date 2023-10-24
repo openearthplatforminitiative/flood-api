@@ -1,0 +1,87 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: flood-api-deployment
+  namespace: apps-flood-api
+spec:
+  replicas: 1
+  revisionHistoryLimit: 3
+  selector:
+    matchLabels:
+      app: flood-api
+  template:
+    metadata:
+      namespace: apps-flood-api
+      labels:
+        app: flood-api
+    spec:
+      containers:
+      - image: ghcr.io/openearthplatforminitiative/flood-api:0.3.0
+        name: flood-api
+        ports:
+        - containerPort: 8080
+        env:
+        - name: DB_NAME
+          value: flood_data
+        - name: DB_ENDPOINT
+          valueFrom:
+            secretKeyRef:
+              name: database-connection-secrets
+              key: endpoint
+        - name: DB_USERNAME
+          valueFrom:
+            secretKeyRef:
+              name: database-connection-secrets
+              key: username
+        - name: DB_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: database-connection-secrets
+              key: password
+        - name: DATABASE_URL
+          value: postgresql+psycopg2://$(DB_USERNAME):$(DB_PASSWORD)@$(DB_ENDPOINT)/$(DB_NAME)
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: flood-api-service
+  namespace: apps-flood-api
+spec:
+  ports:
+  - port: 80
+    targetPort: 8080
+  selector:
+    app: flood-api
+---
+apiVersion: rds.aws.upbound.io/v1beta1
+kind: Instance
+metadata:
+  name: flood-api-db
+  namespace: apps-flood-api
+spec:
+  initProvider:
+    # These fields are only used on creation, and will not be used when updating the resource.
+    engineVersion: '15.4'
+    allocatedStorage: 16
+  forProvider:
+    engine: postgres
+    instanceClass: db.t4g.micro
+    region: eu-central-1
+    maxAllocatedStorage: 64
+    storageEncrypted: true
+    storageType: gp2
+    publiclyAccessible: false
+    dbName: flood_data
+    username: postgres
+    autoGeneratePassword: true
+    passwordSecretRef:
+      name: db-password
+      namespace: apps-flood-api
+      key: password
+    finalSnapshotIdentifier: flood-api-db-final-snapshot
+  managementPolicies: ["*"]
+  writeConnectionSecretToRef:
+    namespace: apps-flood-api
+    name: database-connection-secrets
+  providerConfigRef:
+    name: default
