@@ -16,7 +16,7 @@ spec:
     server: https://kubernetes.default.svc
   project: apps
   source:
-    path: deployment/
+    path: deployment/kubernetes/
     repoURL: https://github.com/openearthplatforminitiative/flood-api
     targetRevision: HEAD
   syncPolicy:
