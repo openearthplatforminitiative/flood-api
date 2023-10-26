@@ -15,6 +15,30 @@ spec:
       labels:
         app: flood-api
     spec:
+      initContainers:
+        - name: flood-api-migration
+          image: ghcr.io/openearthplatforminitiative/flood-api:0.3.0
+          command: ["python",  "-m", "alembic", "upgrade", "head"]
+          env:
+            - name: DB_NAME
+              value: flood_data
+            - name: DB_ENDPOINT
+              valueFrom:
+                secretKeyRef:
+                  name: database-connection-secrets
+                  key: endpoint
+            - name: DB_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: database-connection-secrets
+                  key: username
+            - name: DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: database-connection-secrets
+                  key: password
+            - name: DATABASE_URL
+              value: postgresql+psycopg://$(DB_USERNAME):$(DB_PASSWORD)@$(DB_ENDPOINT)/$(DB_NAME)
       containers:
       - image: ghcr.io/openearthplatforminitiative/flood-api:0.3.0
         name: flood-api
