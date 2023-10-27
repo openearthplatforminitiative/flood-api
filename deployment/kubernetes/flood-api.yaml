@@ -17,7 +17,7 @@ spec:
     spec:
       initContainers:
         - name: flood-api-migration
-          image: ghcr.io/openearthplatforminitiative/flood-api:0.3.0
+          image: ghcr.io/openearthplatforminitiative/flood-api:0.4.0
           command: ["python",  "-m", "alembic", "upgrade", "head"]
           env:
             - name: DB_NAME
@@ -40,7 +40,7 @@ spec:
             - name: DATABASE_URL
               value: postgresql+psycopg://$(DB_USERNAME):$(DB_PASSWORD)@$(DB_ENDPOINT)/$(DB_NAME)
       containers:
-      - image: ghcr.io/openearthplatforminitiative/flood-api:0.3.0
+      - image: ghcr.io/openearthplatforminitiative/flood-api:0.4.0
         name: flood-api
         ports:
         - containerPort: 8080
