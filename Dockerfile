@@ -5,7 +5,9 @@ WORKDIR /code
 RUN pip install poetry
 COPY pyproject.toml poetry.lock /code/
 RUN poetry install --without dev
-COPY flood_api/ /code/flood_api
+COPY flood_api/ /code/flood_api/
+COPY alembic.ini /code/
+COPY alembic/ /code/alembic/
 
 RUN groupadd -r fastapi && useradd -r -g fastapi fastapi
 USER fastapi
