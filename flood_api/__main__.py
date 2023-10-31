@@ -1,11 +1,24 @@
+from contextlib import asynccontextmanager
+
 from fastapi import FastAPI
-from flood_api.settings import Settings
-from flood_api.routers import healthcheck
 
-settings = Settings()
-app = FastAPI(title="Flood API", version=settings.version)
+from flood_api.dependencies.flooddata import fetch_flood_data, flood_data_fetcher
+from flood_api.routers import flood, healthcheck
+from flood_api.settings import settings
+
+import asyncio
+
+
+@asynccontextmanager
+async def lifespan(flood_app: FastAPI):
+    await fetch_flood_data(flood_app)
+    asyncio.create_task(flood_data_fetcher(flood_app))
+    yield
+
+
+app = FastAPI(title="Flood API", version=settings.version, lifespan=lifespan)
+app.include_router(flood.router)
 app.include_router(healthcheck.router)
-
 
 if __name__ == "__main__":
     import uvicorn

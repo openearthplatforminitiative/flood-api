@@ -7,7 +7,12 @@ class Settings(BaseSettings):
     uvicorn_host: str = "0.0.0.0"
     uvicorn_reload: bool = True
     uvicorn_proxy_headers: bool = False
-    database_url: str = "postgresql+psycopg://postgres:postgres@localhost:5432/postgres"
+    flood_data_path_detailed: str = (
+        "s3://openepi-public-data/processed_detailed_forecast.parquet/"
+    )
+    flood_data_path_summary: str = (
+        "s3://openepi-public-data/processed_summary_forecast.parquet/"
+    )
 
 
 settings = Settings()
