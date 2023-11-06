@@ -16,13 +16,15 @@ spec:
         app: flood-api
     spec:
       containers:
-      - image: ghcr.io/openearthplatforminitiative/flood-api:0.5.0
-        name: flood-api
-        ports:
-        - containerPort: 8080
-        env:
-        - name: VERSION
-          value: 0.5.0
+        - image: ghcr.io/openearthplatforminitiative/flood-api:0.5.0
+          name: flood-api
+          ports:
+            - containerPort: 8080
+          env:
+            - name: API_ROOT_PATH
+              value: "/flood"
+            - name: VERSION
+              value: 0.5.0
 ---
 apiVersion: v1
 kind: Service
@@ -31,7 +33,28 @@ metadata:
   namespace: apps-flood-api
 spec:
   ports:
-  - port: 80
-    targetPort: 8080
+    - port: 80
+      targetPort: 8080
   selector:
     app: flood-api
+---
+apiVersion: apisix.apache.org/v2
+kind: ApisixRoute
+metadata:
+  name: flood-api
+spec:
+  http:
+    - name: flood-api
+      match:
+        paths:
+          - /flood/*
+      backends:
+        - serviceName: flood-api
+          servicePort: 80
+      plugins:
+        - name: proxy-rewrite
+          enable: true
+          config:
+            regex_uri:
+              - "^/flood/(.*)"
+              - "/$1"

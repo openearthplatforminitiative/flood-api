@@ -16,7 +16,12 @@ async def lifespan(flood_app: FastAPI):
     yield
 
 
-app = FastAPI(title="Flood API", version=settings.version, lifespan=lifespan)
+app = FastAPI(
+    title="Flood API",
+    lifespan=lifespan,
+    version=settings.version,
+    root_path=settings.api_root_path,
+)
 app.include_router(flood.router)
 app.include_router(healthcheck.router)
 

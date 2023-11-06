@@ -13,6 +13,7 @@ class Settings(BaseSettings):
     flood_data_path_summary: str = (
         "s3://openepi-public-data/processed_summary_forecast.parquet/"
     )
+    api_root_path: str = "/"
 
 
 settings = Settings()
