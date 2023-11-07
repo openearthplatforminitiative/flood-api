@@ -34,15 +34,20 @@ def fetch_parquet(path) -> gpd.GeoDataFrame:
 
 
 def get_summary_data(request: Request) -> gpd.GeoDataFrame | None:
-    return request.app.flood_data_summary
+    return request.app.summary_data
 
 
 def get_detailed_data(request: Request) -> gpd.GeoDataFrame | None:
-    return request.app.flood_data_detailed
+    return request.app.detailed_data
 
 
-SummaryFloodDataDep = Annotated[gpd.GeoDataFrame, Depends(get_summary_data)]
-DetailedFloodDataDep = Annotated[gpd.GeoDataFrame, Depends(get_detailed_data)]
+def get_threshold_data(request: Request) -> gpd.GeoDataFrame | None:
+    return request.app.threshold_data
+
+
+SummaryDataDep = Annotated[gpd.GeoDataFrame, Depends(get_summary_data)]
+DetailedDataDep = Annotated[gpd.GeoDataFrame, Depends(get_detailed_data)]
+ThresholdDataDep = Annotated[gpd.GeoDataFrame, Depends(get_threshold_data)]
 
 
 async def flood_data_fetcher(app: FastAPI):
@@ -56,10 +61,12 @@ async def flood_data_fetcher(app: FastAPI):
 async def fetch_flood_data(app: FastAPI):
     loop = asyncio.get_event_loop()
     (
-        app.flood_data_summary,
-        app.flood_data_detailed,
+        app.summary_data,
+        app.detailed_data,
+        app.threshold_data,
     ) = await asyncio.gather(
         # loop.run_in_executor to prevents blocking the main thread
-        loop.run_in_executor(None, fetch_parquet, settings.flood_data_path_summary),
-        loop.run_in_executor(None, fetch_parquet, settings.flood_data_path_detailed),
+        loop.run_in_executor(None, fetch_parquet, settings.summary_data_path),
+        loop.run_in_executor(None, fetch_parquet, settings.detailed_data_path),
+        loop.run_in_executor(None, fetch_parquet, settings.threshold_data_path),
     )
