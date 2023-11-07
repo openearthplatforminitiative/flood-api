@@ -1,4 +1,5 @@
 from contextlib import asynccontextmanager
+import logging
 
 from fastapi import FastAPI
 
@@ -24,6 +25,8 @@ app = FastAPI(
 )
 app.include_router(flood.router)
 app.include_router(healthcheck.router)
+
+logging.basicConfig(level=logging.INFO)
 
 if __name__ == "__main__":
     import uvicorn

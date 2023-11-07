@@ -1,7 +1,8 @@
-import asyncio
+import logging
 from datetime import timezone
 from typing import Annotated
 
+import asyncio
 import geopandas as gpd
 import pandas as pd
 from aiocron import crontab
@@ -10,9 +11,11 @@ from shapely import wkt
 
 from flood_api.settings import settings
 
+logger = logging.getLogger(__name__)
+
 
 def fetch_parquet(path) -> gpd.GeoDataFrame:
-    print(f"Reloading data from {path}")
+    logger.info("Reloading data from %s", path)
 
     df = pd.read_parquet(
         path,
@@ -25,7 +28,7 @@ def fetch_parquet(path) -> gpd.GeoDataFrame:
 
     gdf = gpd.GeoDataFrame(df, geometry="geometry").drop(columns="wkt")
 
-    print(f"Done reloading data from {path}")
+    logger.info("Done reloading data from %s", path)
 
     return gdf
 
@@ -43,7 +46,7 @@ DetailedFloodDataDep = Annotated[gpd.GeoDataFrame, Depends(get_detailed_data)]
 
 
 async def flood_data_fetcher(app: FastAPI):
-    print("Flood data fetcher running")
+    logger.info("Flood data fetcher running")
     schedule = crontab("0 12 * * * *", tz=timezone.utc)
     while True:
         await schedule.next()
