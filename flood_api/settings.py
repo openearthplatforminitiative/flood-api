@@ -7,7 +7,10 @@ class Settings(BaseSettings):
     uvicorn_host: str = "0.0.0.0"
     uvicorn_reload: bool = True
     uvicorn_proxy_headers: bool = False
-    database_url: str = "postgresql+psycopg://postgres:postgres@localhost:5432/postgres"
+    detailed_data_path: str = "s3://databricks-data-openepi/glofas/processed/newest/processed_detailed_forecast.parquet/"
+    summary_data_path: str = "s3://databricks-data-openepi/glofas/processed/newest/processed_summary_forecast.parquet/"
+    threshold_data_path: str = "s3://databricks-data-openepi/glofas/auxiliary-data/processed_thresholds.parquet/"
+    api_root_path: str = "/"
 
 
 settings = Settings()
