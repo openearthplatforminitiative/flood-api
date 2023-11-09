@@ -175,9 +175,12 @@ def get_data_for_point(
             precision=GLOFAS_PRECISION
         )
         
-        # Query the summary dataframe
-        all_cells_df = gdf[gdf['geometry'].intersects(expanded_geometry)]
-
+        # Query the main dataframe for possible matches
+        # We use the expanded geometry to get the primary 
+        # cell and neighbors
+        possible_matches_index = gdf.sindex.query(expanded_geometry, predicate='intersects')
+        all_cells_df = gdf.iloc[possible_matches_index]
+        
         # Define mask for distinguishing between primary cell and neighbors
         primary_cell_mask = all_cells_df['geometry'].intersects(reduced_geometry)
 
@@ -186,7 +189,10 @@ def get_data_for_point(
         neighbors_only_df = all_cells_df[~primary_cell_mask]
 
     else:
-        # Query the dataframe for the primary cell
-        primary_cell_df = gdf[gdf['geometry'].intersects(reduced_geometry)]
+        # Query the main dataframe for possible matches
+        # This is the same as the expanded geometry, 
+        # but we use the reduced geometry to get only the primary cell
+        possible_matches_index = gdf.sindex.query(reduced_geometry, predicate='intersects')
+        primary_cell_df = gdf.iloc[possible_matches_index]
 
     return primary_cell_df, neighbors_only_df
