@@ -20,13 +20,14 @@ def test_summary_roi():
     min_lon = GLOFAS_ROI["min_lon"]
     max_lon = GLOFAS_ROI["max_lon"]
     eps = 1e-6
+    expected_error_code = 404
 
     # Queried latitude is outside the ROI
     params = {
         'lat': min_lat - eps,
         'lon': (min_lon + max_lon) / 2
     }
-    assert get_summary_response_code(params) == 400
+    assert get_summary_response_code(params) == expected_error_code
 
     # Queried latitude is outside the ROI
     # Being on the upper boundary implies
@@ -35,14 +36,14 @@ def test_summary_roi():
         'lat': max_lat,
         'lon': (min_lon + max_lon) / 2
     }
-    assert get_summary_response_code(params) == 400
+    assert get_summary_response_code(params) == expected_error_code
 
     # Queried longitude is outside the ROI
     params = {
         'lat': (min_lat + max_lat) / 2,
         'lon': min_lon - eps
     }
-    assert get_summary_response_code(params) == 400
+    assert get_summary_response_code(params) == expected_error_code
 
     # Queried longitude is outside the ROI
     # Being on the upper boundary implies
@@ -51,7 +52,7 @@ def test_summary_roi():
         'lat': (min_lat + max_lat) / 2,
         'lon': max_lon
     }
-    assert get_summary_response_code(params) == 400
+    assert get_summary_response_code(params) == expected_error_code
 
     # Queried point is within the ROI
     # Being on the lower boundary implies

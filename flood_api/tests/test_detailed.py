@@ -24,13 +24,14 @@ def test_detailed_roi():
     min_lon = GLOFAS_ROI["min_lon"]
     max_lon = GLOFAS_ROI["max_lon"]
     eps = 1e-6
+    expected_error_code = 404
 
     # Queried latitude is outside the ROI
     params = {
         'lat': min_lat - eps,
         'lon': (min_lon + max_lon) / 2
     }
-    assert get_detailed_response_code(params) == 400
+    assert get_detailed_response_code(params) == expected_error_code
 
     # Queried latitude is outside the ROI
     # Being on the upper boundary implies
@@ -39,14 +40,14 @@ def test_detailed_roi():
         'lat': max_lat,
         'lon': (min_lon + max_lon) / 2
     }
-    assert get_detailed_response_code(params) == 400
+    assert get_detailed_response_code(params) == expected_error_code
 
     # Queried longitude is outside the ROI
     params = {
         'lat': (min_lat + max_lat) / 2,
         'lon': min_lon - eps
     }
-    assert get_detailed_response_code(params) == 400
+    assert get_detailed_response_code(params) == expected_error_code
 
     # Queried longitude is outside the ROI
     # Being on the upper boundary implies
@@ -55,7 +56,7 @@ def test_detailed_roi():
         'lat': (min_lat + max_lat) / 2,
         'lon': max_lon
     }
-    assert get_detailed_response_code(params) == 400
+    assert get_detailed_response_code(params) == expected_error_code
 
     # Queried point is within the ROI
     # Being on the lower boundary implies
@@ -112,6 +113,43 @@ def test_detailed_border_query():
     # Assert that dataframe is empty
     assert gdf.empty
 
+def test_detailed_date_range():
+    min_lat = GLOFAS_ROI["min_lat"]
+    max_lat = GLOFAS_ROI["max_lat"]
+    min_lon = GLOFAS_ROI["min_lon"]
+    max_lon = GLOFAS_ROI["max_lon"]
+    expected_error_code = 400
+
+    # Start date is before the end date
+    params = {
+        'lat': (min_lat + max_lat) / 2,
+        'lon': (min_lon + max_lon) / 2,
+        'start_date': '2023-11-29',
+        'end_date': '2023-12-01'
+    }
+
+    assert get_detailed_response_code(params) == 200
+
+    # Start date is after the end date
+    params = {
+        'lat': (min_lat + max_lat) / 2,
+        'lon': (min_lon + max_lon) / 2,
+        'start_date': '2023-11-29',
+        'end_date': '2023-11-28'
+    }
+
+    assert get_detailed_response_code(params) == expected_error_code
+
+    # Start date and end date are the same
+    params = {
+        'lat': (min_lat + max_lat) / 2,
+        'lon': (min_lon + max_lon) / 2,
+        'start_date': '2023-11-29',
+        'end_date': '2023-11-29'
+    }
+
+    assert get_detailed_response_code(params) == 200
+
 def test_detailed_general():
     params = {
         'lat': 6.2,
@@ -135,9 +173,9 @@ def test_detailed_general():
     # Assert that 'step' column is increasing
     assert gdf['step'].is_monotonic_increasing
 
-    # Assert that 'geometry' and 'time' are the same for all rows
+    # Assert that 'geometry' and 'issued_on' are the same for all rows
     assert gdf['geometry'].nunique() == 1
-    assert gdf['time'].nunique() == 1
+    assert gdf['issued_on'].nunique() == 1
 
 def test_detailed_neighbor():
     # Neighbors are included
@@ -164,9 +202,9 @@ def test_detailed_neighbor():
     # Assert that 'step' column is increasing
     assert gdf_neighbor['step'].is_monotonic_increasing
 
-    # Assert that 'geometry' and 'time' are the same for all rows
+    # Assert that 'geometry' and 'issued_on' are the same for all rows
     assert gdf_neighbor['geometry'].nunique() == 1
-    assert gdf_neighbor['time'].nunique() == 1
+    assert gdf_neighbor['issued_on'].nunique() == 1
 
 def test_detailed_day_range():
     # Both start and end dates are specified
@@ -203,11 +241,11 @@ def test_detailed_day_range():
     assert len(gdf) == 3
     assert len(gdf_neighbor) == 3
 
-    # Assert that 'geometry' and 'time' are the same for all rows
+    # Assert that 'geometry' and 'issued_on' are the same for all rows
     assert gdf['geometry'].nunique() == 1
-    assert gdf['time'].nunique() == 1
+    assert gdf['issued_on'].nunique() == 1
     assert gdf_neighbor['geometry'].nunique() == 1
-    assert gdf_neighbor['time'].nunique() == 1
+    assert gdf_neighbor['issued_on'].nunique() == 1
 
     # Assert that 'valid_time' is within the specified range
     assert gdf['valid_time'].min() == Timestamp('2023-11-30')

@@ -6,7 +6,7 @@ summary_data = [
     {
         "latitude": 6.225,
         "longitude": 39.075,
-        "time": "2023-11-07T00:00:00",
+        "issued_on": "2023-11-07T00:00:00",
         "peak_step": 1,
         "peak_day": "2023-11-07T00:00:00",
         "peak_timing": "BB",
@@ -25,7 +25,7 @@ summary_data = [
     {
         "latitude": 6.275,
         "longitude": 39.075,
-        "time": "2023-11-07T00:00:00",
+        "issued_on": "2023-11-07T00:00:00",
         "peak_step": 1,
         "peak_day": "2023-11-07T00:00:00",
         "peak_timing": "BB",
@@ -47,7 +47,7 @@ detailed_data = [
     {
         "latitude": 6.225,
         "longitude": 39.075,
-        "time": "2023-11-07T00:00:00",
+        "issued_on": "2023-11-07T00:00:00",
         "valid_time": "2023-11-26T00:00:00",
         "step": 19,
         "p_above_2y": 0.058823529411764705,
@@ -63,7 +63,7 @@ detailed_data = [
     {
         "latitude": 6.225,
         "longitude": 39.075,
-        "time": "2023-11-07T00:00:00",
+        "issued_on": "2023-11-07T00:00:00",
         "valid_time": "2023-11-12T00:00:00",
         "step": 5,
         "p_above_2y": 1.0,
@@ -79,7 +79,7 @@ detailed_data = [
     {
         "latitude": 6.225,
         "longitude": 39.075,
-        "time": "2023-11-07T00:00:00",
+        "issued_on": "2023-11-07T00:00:00",
         "valid_time": "2023-11-25T00:00:00",
         "step": 18,
         "p_above_2y": 0.09803921568627451,
@@ -95,7 +95,7 @@ detailed_data = [
     {
         "latitude": 6.225,
         "longitude": 39.075,
-        "time": "2023-11-07T00:00:00",
+        "issued_on": "2023-11-07T00:00:00",
         "valid_time": "2023-11-08T00:00:00",
         "step": 1,
         "p_above_2y": 1.0,
@@ -111,7 +111,7 @@ detailed_data = [
     {
         "latitude": 6.225,
         "longitude": 39.075,
-        "time": "2023-11-07T00:00:00",
+        "issued_on": "2023-11-07T00:00:00",
         "valid_time": "2023-11-22T00:00:00",
         "step": 15,
         "p_above_2y": 0.37254901960784315,
@@ -127,7 +127,7 @@ detailed_data = [
     {
         "latitude": 6.225,
         "longitude": 39.075,
-        "time": "2023-11-07T00:00:00",
+        "issued_on": "2023-11-07T00:00:00",
         "valid_time": "2023-11-18T00:00:00",
         "step": 11,
         "p_above_2y": 1.0,
@@ -143,7 +143,7 @@ detailed_data = [
     {
         "latitude": 6.225,
         "longitude": 39.075,
-        "time": "2023-11-07T00:00:00",
+        "issued_on": "2023-11-07T00:00:00",
         "valid_time": "2023-12-04T00:00:00",
         "step": 27,
         "p_above_2y": 0.0,
@@ -159,7 +159,7 @@ detailed_data = [
     {
         "latitude": 6.225,
         "longitude": 39.075,
-        "time": "2023-11-07T00:00:00",
+        "issued_on": "2023-11-07T00:00:00",
         "valid_time": "2023-11-11T00:00:00",
         "step": 4,
         "p_above_2y": 1.0,
@@ -175,7 +175,7 @@ detailed_data = [
     {
         "latitude": 6.225,
         "longitude": 39.075,
-        "time": "2023-11-07T00:00:00",
+        "issued_on": "2023-11-07T00:00:00",
         "valid_time": "2023-11-24T00:00:00",
         "step": 17,
         "p_above_2y": 0.1568627450980392,
@@ -191,7 +191,7 @@ detailed_data = [
     {
         "latitude": 6.225,
         "longitude": 39.075,
-        "time": "2023-11-07T00:00:00",
+        "issued_on": "2023-11-07T00:00:00",
         "valid_time": "2023-11-27T00:00:00",
         "step": 20,
         "p_above_2y": 0.058823529411764705,
@@ -207,7 +207,7 @@ detailed_data = [
     {
         "latitude": 6.225,
         "longitude": 39.075,
-        "time": "2023-11-07T00:00:00",
+        "issued_on": "2023-11-07T00:00:00",
         "valid_time": "2023-11-14T00:00:00",
         "step": 7,
         "p_above_2y": 1.0,
@@ -223,7 +223,7 @@ detailed_data = [
     {
         "latitude": 6.225,
         "longitude": 39.075,
-        "time": "2023-11-07T00:00:00",
+        "issued_on": "2023-11-07T00:00:00",
         "valid_time": "2023-12-01T00:00:00",
         "step": 24,
         "p_above_2y": 0.0,
@@ -239,7 +239,7 @@ detailed_data = [
     {
         "latitude": 6.225,
         "longitude": 39.075,
-        "time": "2023-11-07T00:00:00",
+        "issued_on": "2023-11-07T00:00:00",
         "valid_time": "2023-12-05T00:00:00",
         "step": 28,
         "p_above_2y": 0.0,
@@ -255,7 +255,7 @@ detailed_data = [
     {
         "latitude": 6.225,
         "longitude": 39.075,
-        "time": "2023-11-07T00:00:00",
+        "issued_on": "2023-11-07T00:00:00",
         "valid_time": "2023-12-02T00:00:00",
         "step": 25,
         "p_above_2y": 0.0,
@@ -271,7 +271,7 @@ detailed_data = [
     {
         "latitude": 6.225,
         "longitude": 39.075,
-        "time": "2023-11-07T00:00:00",
+        "issued_on": "2023-11-07T00:00:00",
         "valid_time": "2023-11-23T00:00:00",
         "step": 16,
         "p_above_2y": 0.29411764705882354,
@@ -287,7 +287,7 @@ detailed_data = [
     {
         "latitude": 6.225,
         "longitude": 39.075,
-        "time": "2023-11-07T00:00:00",
+        "issued_on": "2023-11-07T00:00:00",
         "valid_time": "2023-11-09T00:00:00",
         "step": 2,
         "p_above_2y": 1.0,
@@ -303,7 +303,7 @@ detailed_data = [
     {
         "latitude": 6.225,
         "longitude": 39.075,
-        "time": "2023-11-07T00:00:00",
+        "issued_on": "2023-11-07T00:00:00",
         "valid_time": "2023-11-17T00:00:00",
         "step": 10,
         "p_above_2y": 1.0,
@@ -319,7 +319,7 @@ detailed_data = [
     {
         "latitude": 6.225,
         "longitude": 39.075,
-        "time": "2023-11-07T00:00:00",
+        "issued_on": "2023-11-07T00:00:00",
         "valid_time": "2023-12-03T00:00:00",
         "step": 26,
         "p_above_2y": 0.0,
@@ -335,7 +335,7 @@ detailed_data = [
     {
         "latitude": 6.225,
         "longitude": 39.075,
-        "time": "2023-11-07T00:00:00",
+        "issued_on": "2023-11-07T00:00:00",
         "valid_time": "2023-11-10T00:00:00",
         "step": 3,
         "p_above_2y": 1.0,
@@ -351,7 +351,7 @@ detailed_data = [
     {
         "latitude": 6.225,
         "longitude": 39.075,
-        "time": "2023-11-07T00:00:00",
+        "issued_on": "2023-11-07T00:00:00",
         "valid_time": "2023-12-06T00:00:00",
         "step": 29,
         "p_above_2y": 0.0,
@@ -367,7 +367,7 @@ detailed_data = [
     {
         "latitude": 6.225,
         "longitude": 39.075,
-        "time": "2023-11-07T00:00:00",
+        "issued_on": "2023-11-07T00:00:00",
         "valid_time": "2023-11-21T00:00:00",
         "step": 14,
         "p_above_2y": 0.5686274509803921,
@@ -383,7 +383,7 @@ detailed_data = [
     {
         "latitude": 6.225,
         "longitude": 39.075,
-        "time": "2023-11-07T00:00:00",
+        "issued_on": "2023-11-07T00:00:00",
         "valid_time": "2023-12-07T00:00:00",
         "step": 30,
         "p_above_2y": 0.0,
@@ -399,7 +399,7 @@ detailed_data = [
     {
         "latitude": 6.225,
         "longitude": 39.075,
-        "time": "2023-11-07T00:00:00",
+        "issued_on": "2023-11-07T00:00:00",
         "valid_time": "2023-11-29T00:00:00",
         "step": 22,
         "p_above_2y": 0.0196078431372549,
@@ -415,7 +415,7 @@ detailed_data = [
     {
         "latitude": 6.225,
         "longitude": 39.075,
-        "time": "2023-11-07T00:00:00",
+        "issued_on": "2023-11-07T00:00:00",
         "valid_time": "2023-11-30T00:00:00",
         "step": 23,
         "p_above_2y": 0.0196078431372549,
@@ -431,7 +431,7 @@ detailed_data = [
     {
         "latitude": 6.225,
         "longitude": 39.075,
-        "time": "2023-11-07T00:00:00",
+        "issued_on": "2023-11-07T00:00:00",
         "valid_time": "2023-11-15T00:00:00",
         "step": 8,
         "p_above_2y": 1.0,
@@ -447,7 +447,7 @@ detailed_data = [
     {
         "latitude": 6.225,
         "longitude": 39.075,
-        "time": "2023-11-07T00:00:00",
+        "issued_on": "2023-11-07T00:00:00",
         "valid_time": "2023-11-19T00:00:00",
         "step": 12,
         "p_above_2y": 0.8823529411764706,
@@ -463,7 +463,7 @@ detailed_data = [
     {
         "latitude": 6.225,
         "longitude": 39.075,
-        "time": "2023-11-07T00:00:00",
+        "issued_on": "2023-11-07T00:00:00",
         "valid_time": "2023-11-28T00:00:00",
         "step": 21,
         "p_above_2y": 0.0392156862745098,
@@ -479,7 +479,7 @@ detailed_data = [
     {
         "latitude": 6.225,
         "longitude": 39.075,
-        "time": "2023-11-07T00:00:00",
+        "issued_on": "2023-11-07T00:00:00",
         "valid_time": "2023-11-13T00:00:00",
         "step": 6,
         "p_above_2y": 1.0,
@@ -495,7 +495,7 @@ detailed_data = [
     {
         "latitude": 6.225,
         "longitude": 39.075,
-        "time": "2023-11-07T00:00:00",
+        "issued_on": "2023-11-07T00:00:00",
         "valid_time": "2023-11-16T00:00:00",
         "step": 9,
         "p_above_2y": 1.0,
@@ -511,7 +511,7 @@ detailed_data = [
     {
         "latitude": 6.225,
         "longitude": 39.075,
-        "time": "2023-11-07T00:00:00",
+        "issued_on": "2023-11-07T00:00:00",
         "valid_time": "2023-11-20T00:00:00",
         "step": 13,
         "p_above_2y": 0.7450980392156863,
@@ -527,7 +527,7 @@ detailed_data = [
     {
         "latitude": 6.275,
         "longitude": 39.075,
-        "time": "2023-11-07T00:00:00",
+        "issued_on": "2023-11-07T00:00:00",
         "valid_time": "2023-12-02T00:00:00",
         "step": 25,
         "p_above_2y": 0.0,
@@ -543,7 +543,7 @@ detailed_data = [
     {
         "latitude": 6.275,
         "longitude": 39.075,
-        "time": "2023-11-07T00:00:00",
+        "issued_on": "2023-11-07T00:00:00",
         "valid_time": "2023-11-17T00:00:00",
         "step": 10,
         "p_above_2y": 1.0,
@@ -559,7 +559,7 @@ detailed_data = [
     {
         "latitude": 6.275,
         "longitude": 39.075,
-        "time": "2023-11-07T00:00:00",
+        "issued_on": "2023-11-07T00:00:00",
         "valid_time": "2023-11-24T00:00:00",
         "step": 17,
         "p_above_2y": 0.11764705882352941,
@@ -575,7 +575,7 @@ detailed_data = [
     {
         "latitude": 6.275,
         "longitude": 39.075,
-        "time": "2023-11-07T00:00:00",
+        "issued_on": "2023-11-07T00:00:00",
         "valid_time": "2023-11-12T00:00:00",
         "step": 5,
         "p_above_2y": 1.0,
@@ -591,7 +591,7 @@ detailed_data = [
     {
         "latitude": 6.275,
         "longitude": 39.075,
-        "time": "2023-11-07T00:00:00",
+        "issued_on": "2023-11-07T00:00:00",
         "valid_time": "2023-11-22T00:00:00",
         "step": 15,
         "p_above_2y": 0.3333333333333333,
@@ -607,7 +607,7 @@ detailed_data = [
     {
         "latitude": 6.275,
         "longitude": 39.075,
-        "time": "2023-11-07T00:00:00",
+        "issued_on": "2023-11-07T00:00:00",
         "valid_time": "2023-11-15T00:00:00",
         "step": 8,
         "p_above_2y": 1.0,
@@ -623,7 +623,7 @@ detailed_data = [
     {
         "latitude": 6.275,
         "longitude": 39.075,
-        "time": "2023-11-07T00:00:00",
+        "issued_on": "2023-11-07T00:00:00",
         "valid_time": "2023-12-05T00:00:00",
         "step": 28,
         "p_above_2y": 0.0,
@@ -639,7 +639,7 @@ detailed_data = [
     {
         "latitude": 6.275,
         "longitude": 39.075,
-        "time": "2023-11-07T00:00:00",
+        "issued_on": "2023-11-07T00:00:00",
         "valid_time": "2023-12-07T00:00:00",
         "step": 30,
         "p_above_2y": 0.0,
@@ -655,7 +655,7 @@ detailed_data = [
     {
         "latitude": 6.275,
         "longitude": 39.075,
-        "time": "2023-11-07T00:00:00",
+        "issued_on": "2023-11-07T00:00:00",
         "valid_time": "2023-11-21T00:00:00",
         "step": 14,
         "p_above_2y": 0.5294117647058824,
@@ -671,7 +671,7 @@ detailed_data = [
     {
         "latitude": 6.275,
         "longitude": 39.075,
-        "time": "2023-11-07T00:00:00",
+        "issued_on": "2023-11-07T00:00:00",
         "valid_time": "2023-12-06T00:00:00",
         "step": 29,
         "p_above_2y": 0.0,
@@ -687,7 +687,7 @@ detailed_data = [
     {
         "latitude": 6.275,
         "longitude": 39.075,
-        "time": "2023-11-07T00:00:00",
+        "issued_on": "2023-11-07T00:00:00",
         "valid_time": "2023-11-14T00:00:00",
         "step": 7,
         "p_above_2y": 1.0,
@@ -703,7 +703,7 @@ detailed_data = [
     {
         "latitude": 6.275,
         "longitude": 39.075,
-        "time": "2023-11-07T00:00:00",
+        "issued_on": "2023-11-07T00:00:00",
         "valid_time": "2023-11-10T00:00:00",
         "step": 3,
         "p_above_2y": 1.0,
@@ -719,7 +719,7 @@ detailed_data = [
     {
         "latitude": 6.275,
         "longitude": 39.075,
-        "time": "2023-11-07T00:00:00",
+        "issued_on": "2023-11-07T00:00:00",
         "valid_time": "2023-11-18T00:00:00",
         "step": 11,
         "p_above_2y": 1.0,
@@ -735,7 +735,7 @@ detailed_data = [
     {
         "latitude": 6.275,
         "longitude": 39.075,
-        "time": "2023-11-07T00:00:00",
+        "issued_on": "2023-11-07T00:00:00",
         "valid_time": "2023-11-23T00:00:00",
         "step": 16,
         "p_above_2y": 0.29411764705882354,
@@ -751,7 +751,7 @@ detailed_data = [
     {
         "latitude": 6.275,
         "longitude": 39.075,
-        "time": "2023-11-07T00:00:00",
+        "issued_on": "2023-11-07T00:00:00",
         "valid_time": "2023-11-30T00:00:00",
         "step": 23,
         "p_above_2y": 0.0196078431372549,
@@ -767,7 +767,7 @@ detailed_data = [
     {
         "latitude": 6.275,
         "longitude": 39.075,
-        "time": "2023-11-07T00:00:00",
+        "issued_on": "2023-11-07T00:00:00",
         "valid_time": "2023-11-20T00:00:00",
         "step": 13,
         "p_above_2y": 0.7254901960784313,
@@ -783,7 +783,7 @@ detailed_data = [
     {
         "latitude": 6.275,
         "longitude": 39.075,
-        "time": "2023-11-07T00:00:00",
+        "issued_on": "2023-11-07T00:00:00",
         "valid_time": "2023-11-26T00:00:00",
         "step": 19,
         "p_above_2y": 0.058823529411764705,
@@ -799,7 +799,7 @@ detailed_data = [
     {
         "latitude": 6.275,
         "longitude": 39.075,
-        "time": "2023-11-07T00:00:00",
+        "issued_on": "2023-11-07T00:00:00",
         "valid_time": "2023-11-29T00:00:00",
         "step": 22,
         "p_above_2y": 0.0196078431372549,
@@ -815,7 +815,7 @@ detailed_data = [
     {
         "latitude": 6.275,
         "longitude": 39.075,
-        "time": "2023-11-07T00:00:00",
+        "issued_on": "2023-11-07T00:00:00",
         "valid_time": "2023-11-19T00:00:00",
         "step": 12,
         "p_above_2y": 0.8823529411764706,
@@ -831,7 +831,7 @@ detailed_data = [
     {
         "latitude": 6.275,
         "longitude": 39.075,
-        "time": "2023-11-07T00:00:00",
+        "issued_on": "2023-11-07T00:00:00",
         "valid_time": "2023-11-09T00:00:00",
         "step": 2,
         "p_above_2y": 1.0,
@@ -847,7 +847,7 @@ detailed_data = [
     {
         "latitude": 6.275,
         "longitude": 39.075,
-        "time": "2023-11-07T00:00:00",
+        "issued_on": "2023-11-07T00:00:00",
         "valid_time": "2023-11-25T00:00:00",
         "step": 18,
         "p_above_2y": 0.0784313725490196,
@@ -863,7 +863,7 @@ detailed_data = [
     {
         "latitude": 6.275,
         "longitude": 39.075,
-        "time": "2023-11-07T00:00:00",
+        "issued_on": "2023-11-07T00:00:00",
         "valid_time": "2023-11-11T00:00:00",
         "step": 4,
         "p_above_2y": 1.0,
@@ -879,7 +879,7 @@ detailed_data = [
     {
         "latitude": 6.275,
         "longitude": 39.075,
-        "time": "2023-11-07T00:00:00",
+        "issued_on": "2023-11-07T00:00:00",
         "valid_time": "2023-11-28T00:00:00",
         "step": 21,
         "p_above_2y": 0.0196078431372549,
@@ -895,7 +895,7 @@ detailed_data = [
     {
         "latitude": 6.275,
         "longitude": 39.075,
-        "time": "2023-11-07T00:00:00",
+        "issued_on": "2023-11-07T00:00:00",
         "valid_time": "2023-12-01T00:00:00",
         "step": 24,
         "p_above_2y": 0.0,
@@ -911,7 +911,7 @@ detailed_data = [
     {
         "latitude": 6.275,
         "longitude": 39.075,
-        "time": "2023-11-07T00:00:00",
+        "issued_on": "2023-11-07T00:00:00",
         "valid_time": "2023-12-03T00:00:00",
         "step": 26,
         "p_above_2y": 0.0,
@@ -927,7 +927,7 @@ detailed_data = [
     {
         "latitude": 6.275,
         "longitude": 39.075,
-        "time": "2023-11-07T00:00:00",
+        "issued_on": "2023-11-07T00:00:00",
         "valid_time": "2023-11-27T00:00:00",
         "step": 20,
         "p_above_2y": 0.058823529411764705,
@@ -943,7 +943,7 @@ detailed_data = [
     {
         "latitude": 6.275,
         "longitude": 39.075,
-        "time": "2023-11-07T00:00:00",
+        "issued_on": "2023-11-07T00:00:00",
         "valid_time": "2023-11-13T00:00:00",
         "step": 6,
         "p_above_2y": 1.0,
@@ -959,7 +959,7 @@ detailed_data = [
     {
         "latitude": 6.275,
         "longitude": 39.075,
-        "time": "2023-11-07T00:00:00",
+        "issued_on": "2023-11-07T00:00:00",
         "valid_time": "2023-11-08T00:00:00",
         "step": 1,
         "p_above_2y": 1.0,
@@ -975,7 +975,7 @@ detailed_data = [
     {
         "latitude": 6.275,
         "longitude": 39.075,
-        "time": "2023-11-07T00:00:00",
+        "issued_on": "2023-11-07T00:00:00",
         "valid_time": "2023-11-16T00:00:00",
         "step": 9,
         "p_above_2y": 1.0,
@@ -991,7 +991,7 @@ detailed_data = [
     {
         "latitude": 6.275,
         "longitude": 39.075,
-        "time": "2023-11-07T00:00:00",
+        "issued_on": "2023-11-07T00:00:00",
         "valid_time": "2023-12-04T00:00:00",
         "step": 27,
         "p_above_2y": 0.0,
@@ -1010,17 +1010,17 @@ threshold_data = [
     {
         "latitude": 6.225,
         "longitude": 39.075,
-        "2y_threshold": 180.60302734375,
-        "5y_threshold": 218.81761169433594,
-        "20y_threshold": 268.388671875,
+        "threshold_2y": 180.60302734375,
+        "threshold_5y": 218.81761169433594,
+        "threshold_20y": 268.388671875,
         "wkt": "POLYGON ((39.05 6.2,39.05 6.25,39.1 6.25,39.1 6.2,39.05 6.2))"
     },
     {
         "latitude": 6.275,
         "longitude": 39.075,
-        "2y_threshold": 178.55242919921875,
-        "5y_threshold": 215.99989318847656,
-        "20y_threshold": 264.57586669921875,
+        "threshold_2y": 178.55242919921875,
+        "threshold_5y": 215.99989318847656,
+        "threshold_20y": 264.57586669921875,
         "wkt": "POLYGON ((39.05 6.25,39.05 6.3,39.1 6.3,39.1 6.25,39.05 6.25))"
     }
 ]
@@ -1034,12 +1034,12 @@ for record in summary_data + detailed_data + threshold_data:
 
 # Summary data
 gdf_test_summary = gpd.GeoDataFrame(summary_data, geometry='geometry')
-gdf_test_summary['time'] = pd.to_datetime(gdf_test_summary['time'])
+gdf_test_summary['issued_on'] = pd.to_datetime(gdf_test_summary['issued_on'])
 gdf_test_summary['peak_day'] = pd.to_datetime(gdf_test_summary['peak_day'])
 
 # Detailed data
 gdf_test_detailed = gpd.GeoDataFrame(detailed_data, geometry='geometry')
-gdf_test_detailed['time'] = pd.to_datetime(gdf_test_detailed['time'])
+gdf_test_detailed['issued_on'] = pd.to_datetime(gdf_test_detailed['issued_on'])
 gdf_test_detailed['valid_time'] = pd.to_datetime(gdf_test_detailed['valid_time'])
 
 # Threshold data
