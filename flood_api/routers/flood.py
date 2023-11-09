@@ -6,19 +6,14 @@ from flood_api.dependencies.flooddata import (
     SummaryDataDep,
     ThresholdDataDep,
 )
-from flood_api.dependencies.models import (
-    DetailedProperties,
-    DetailedResponseModel,
-    SummaryProperties,
-    SummaryResponseModel,
-    ThresholdProperties,
-    ThresholdResponseModel,
-)
 from flood_api.dependencies.queryparams import (
     CoordinatesDep,
     DateRangeDep,
     IncludeNeighborsDep,
 )
+from flood_api.models.detailed_types import DetailedProperties, DetailedResponseModel
+from flood_api.models.summary_types import SummaryProperties, SummaryResponseModel
+from flood_api.models.threshold_types import ThresholdProperties, ThresholdResponseModel
 from flood_api.utils.geospatial_operations import get_data_for_point
 from flood_api.utils.json_utilities import dataframe_to_geojson
 from flood_api.utils.validation_helpers import validate_coordinates, validate_dates
