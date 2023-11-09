@@ -1,6 +1,6 @@
-from flood_api.__main__ import app
 from fastapi.testclient import TestClient
 
+from flood_api.__main__ import app
 
 client = TestClient(app)
 

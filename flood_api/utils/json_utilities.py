@@ -1,11 +1,11 @@
+import json
+from datetime import date
+
 import geopandas as gpd
 import pandas as pd
-from datetime import date
-import json
 
-def custom_date_handler(
-    obj: object
-) -> str:
+
+def custom_date_handler(obj: object) -> str:
     """
     Custom date handler for converting dates to ISO format.
 
@@ -19,10 +19,9 @@ def custom_date_handler(
         return obj.isoformat()
     raise TypeError(f"Object of type {type(obj).__name__} is not JSON serializable")
 
+
 def dataframe_to_geojson(
-    df: gpd.GeoDataFrame, 
-    columns: list[str], 
-    sort_columns: list[str] = None
+    df: gpd.GeoDataFrame, columns: list[str], sort_columns: list[str] = None
 ) -> dict:
     """
     Convert a GeoDataFrame to a GeoJSON.
@@ -35,12 +34,12 @@ def dataframe_to_geojson(
     Returns:
     dict: The GeoJSON.
     """
-    # Check if the dataframe is empty. If it is, return an 
+    # Check if the dataframe is empty. If it is, return an
     # empty GeoJSON where we only assume the geometry column
     # is present.
     if df.empty:
         return json.loads(df.to_json())
-    
+
     # Sort the columns if a list of columns is provided
     if sort_columns is not None:
         df = df.sort_values(by=sort_columns)
@@ -49,7 +48,7 @@ def dataframe_to_geojson(
     df = df.reset_index(drop=True)
 
     # Serialize the dataframe as a string
-    geojson_as_string = df[columns + ['geometry']].to_json(default=custom_date_handler)
+    geojson_as_string = df[columns + ["geometry"]].to_json(default=custom_date_handler)
 
     # Use json library to convert from serialized string to json
     return json.loads(geojson_as_string)

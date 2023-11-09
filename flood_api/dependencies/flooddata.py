@@ -1,12 +1,12 @@
+import asyncio
 import logging
 from datetime import timezone
 from typing import Annotated
 
-import asyncio
 import geopandas as gpd
 import pandas as pd
 from aiocron import crontab
-from fastapi import FastAPI, Request, Depends
+from fastapi import Depends, FastAPI, Request
 from shapely import wkt
 
 from flood_api.settings import settings

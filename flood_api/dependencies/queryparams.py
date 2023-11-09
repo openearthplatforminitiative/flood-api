@@ -1,5 +1,5 @@
-from typing import Annotated
 from datetime import date
+from typing import Annotated
 
 from fastapi import Depends, Query
 
@@ -19,15 +19,20 @@ def coordinates(
 
 CoordinatesDep = Annotated[tuple[float, float], Depends(coordinates)]
 
+
 def include_neighbors(
     include_neighbors: Annotated[
         bool,
-        Query(description="Whether or not to include neighboring cells in the response"),
+        Query(
+            description="Whether or not to include neighboring cells in the response"
+        ),
     ] = False
 ) -> bool:
     return include_neighbors
 
+
 IncludeNeighborsDep = Annotated[bool, Depends(include_neighbors)]
+
 
 def date_range(
     start_date: Annotated[

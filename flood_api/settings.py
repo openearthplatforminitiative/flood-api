@@ -15,7 +15,7 @@ class Settings(BaseSettings):
         "min_lat": -6.0,
         "max_lat": 17.0,
         "min_lon": -18.0,
-        "max_lon": 52.0
+        "max_lon": 52.0,
     }
     glofas_resolution: float = 0.05
     glofas_precision: int = 3
