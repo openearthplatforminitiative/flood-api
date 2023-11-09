@@ -20,3 +20,13 @@ jobs:
         with:
           context: .
           push: false
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out the repo
+        uses: actions/checkout@v3
+
+      - name: Check linting
+        uses: rickstaa/action-black@v1
+        with:
+          black_args: ". --check"
