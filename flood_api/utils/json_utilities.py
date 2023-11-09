@@ -3,10 +3,25 @@ import pandas as pd
 from datetime import date
 import json
 
+def custom_date_handler(
+    obj: object
+) -> str:
+    """
+    Custom date handler for converting dates to ISO format.
+
+    Parameters:
+    - obj (object): The object to convert.
+
+    Returns:
+    str: The ISO formatted date string.
+    """
+    if isinstance(obj, date) or isinstance(obj, pd.Timestamp):
+        return obj.isoformat()
+    raise TypeError(f"Object of type {type(obj).__name__} is not JSON serializable")
+
 def dataframe_to_geojson(
     df: gpd.GeoDataFrame, 
     columns: list[str], 
-    date_handler: callable = None, 
     sort_columns: list[str] = None
 ) -> dict:
     """
@@ -15,7 +30,6 @@ def dataframe_to_geojson(
     Parameters:
     - df (GeoDataFrame): The GeoDataFrame to convert.
     - columns (list): The columns to include in the GeoJSON.
-    - date_handler (callable): The date handler to use for date columns.
     - sort_columns (list): The columns to sort by.
 
     Returns:
@@ -35,23 +49,7 @@ def dataframe_to_geojson(
     df = df.reset_index(drop=True)
 
     # Serialize the dataframe as a string
-    geojson_as_string = df[columns + ['geometry']].to_json(default=date_handler)
+    geojson_as_string = df[columns + ['geometry']].to_json(default=custom_date_handler)
 
     # Use json library to convert from serialized string to json
     return json.loads(geojson_as_string)
-
-def custom_date_handler(
-    obj: object
-) -> str:
-    """
-    Custom date handler for converting dates to ISO format.
-
-    Parameters:
-    - obj (object): The object to convert.
-
-    Returns:
-    str: The ISO formatted date string.
-    """
-    if isinstance(obj, date) or isinstance(obj, pd.Timestamp):
-        return obj.isoformat()
-    raise TypeError(f"Object of type {type(obj).__name__} is not JSON serializable")
