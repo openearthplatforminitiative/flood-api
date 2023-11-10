@@ -15,7 +15,7 @@ class DetailedProperties(BaseModelWithDates):
     valid_for: date = Field(
         ...,
         description="The date of the 24-hour forecast period for the flood. "
-        "The forecast uses the discharge expected between 00:00 and 23:59 of that day.",
+        "The forecast uses the discharge expected between 00:00 UTC and 23:59 UTC of that day.",
         json_schema_extra={"example": "2023-12-01"},
     )
     step: int = Field(
