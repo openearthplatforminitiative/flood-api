@@ -1,9 +1,8 @@
-from fastapi import APIRouter
-from fastapi import Response
-from healthcheck import HealthCheck
-from flood_api.settings import settings
 import s3fs
+from fastapi import APIRouter, Response
+from healthcheck import HealthCheck
 
+from flood_api.settings import settings
 
 router = APIRouter(tags=["health"])
 

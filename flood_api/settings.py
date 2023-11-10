@@ -11,6 +11,14 @@ class Settings(BaseSettings):
     summary_data_path: str = "s3://databricks-data-openepi/glofas/processed/newest/processed_summary_forecast.parquet/"
     threshold_data_path: str = "s3://databricks-data-openepi/glofas/auxiliary-data/processed_thresholds.parquet/"
     api_root_path: str = "/"
+    glofas_roi: dict = {
+        "min_lat": -6.0,
+        "max_lat": 17.0,
+        "min_lon": -18.0,
+        "max_lon": 52.0,
+    }
+    glofas_resolution: float = 0.05
+    glofas_precision: int = 3
 
 
 settings = Settings()
