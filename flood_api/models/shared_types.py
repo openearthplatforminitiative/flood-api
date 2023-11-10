@@ -49,6 +49,13 @@ class BaseModelWithDates(BaseModel):
             if field_type == date
         ]
 
+    issued_on: date = Field(
+        ...,
+        description="The date the summary forecast was issued on. "
+        "The GloFAS hydrological model is run every day at 00:00 UTC.",
+        json_schema_extra={"example": "2023-11-07"},
+    )
+
 
 class Feature(BaseModel):
     id: str = Field(..., description="A unique identifier for the feature.")

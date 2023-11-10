@@ -27,11 +27,11 @@ class IntensityEnum(str, Enum):
 
 
 class SummaryProperties(BaseModelWithDates):
-    issued_on: date = Field(
-        ...,
-        description="The date the summary forecast was issued on.",
-        json_schema_extra={"example": "2023-11-07"},
-    )
+    # issued_on: date = Field(
+    #     ...,
+    #     description="The date the summary forecast was issued on.",
+    #     json_schema_extra={"example": "2023-11-07"},
+    # )
     peak_step: int = Field(
         ...,
         ge=1,
