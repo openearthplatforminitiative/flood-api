@@ -1,5 +1,5 @@
 from enum import Enum
-from typing import List
+from typing import List, Literal
 
 from pydantic import BaseModel, Field
 
@@ -40,7 +40,7 @@ class Geometry(BaseModel):
 
 class Feature(BaseModel):
     id: str = Field(..., description="A unique identifier for the feature.")
-    type: str = Field(
+    type: Literal["Feature"] = Field(
         ...,
         description="The type of the feature, typically 'Feature' for GeoJSON objects.",
         json_schema_extra={"example": "Feature"},
@@ -52,7 +52,7 @@ class Feature(BaseModel):
 
 
 class FeatureCollection(BaseModel):
-    type: str = Field(
+    type: Literal["FeatureCollection"] = Field(
         description="The type of the collection, typically 'FeatureCollection' for a group of features.",
     )
     features: List[Feature] = Field(
