@@ -3,10 +3,10 @@ from typing import List
 
 from pydantic import BaseModel, Field
 
-from flood_api.models.shared_types import CustomBaseModel, Feature, FeatureCollection
+from flood_api.models.shared_types import BaseModelWithDates, Feature, FeatureCollection
 
 
-class DetailedProperties(CustomBaseModel):
+class DetailedProperties(BaseModelWithDates):
     issued_on: date = Field(
         ...,
         description="The date the detailed forecast was issued on.",

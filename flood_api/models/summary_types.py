@@ -4,7 +4,7 @@ from typing import List
 
 from pydantic import BaseModel, Field, field_validator
 
-from flood_api.models.shared_types import CustomBaseModel, Feature, FeatureCollection
+from flood_api.models.shared_types import BaseModelWithDates, Feature, FeatureCollection
 
 
 class PeakTimingEnum(str, Enum):
@@ -26,7 +26,7 @@ class IntensityEnum(str, Enum):
     GREY = "G"
 
 
-class SummaryProperties(CustomBaseModel):
+class SummaryProperties(BaseModelWithDates):
     issued_on: date = Field(
         ...,
         description="The date the summary forecast was issued on.",

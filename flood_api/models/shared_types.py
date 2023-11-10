@@ -39,7 +39,7 @@ class Geometry(BaseModel):
     )
 
 
-class CustomBaseModel(BaseModel):
+class BaseModelWithDates(BaseModel):
     # Method to get fields of type 'date'
     @classmethod
     def get_date_fields(cls: Type[BaseModel]) -> List[str]:
