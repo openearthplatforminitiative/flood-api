@@ -1,5 +1,6 @@
+from datetime import date
 from enum import Enum
-from typing import List, Literal
+from typing import List, Literal, Type
 
 from pydantic import BaseModel, Field
 
@@ -36,6 +37,17 @@ class Geometry(BaseModel):
             ]
         },
     )
+
+
+class CustomBaseModel(BaseModel):
+    # Method to get fields of type 'date'
+    @classmethod
+    def get_date_fields(cls: Type[BaseModel]) -> List[str]:
+        return [
+            field_name
+            for field_name, field_type in cls.__annotations__.items()
+            if field_type == date
+        ]
 
 
 class Feature(BaseModel):

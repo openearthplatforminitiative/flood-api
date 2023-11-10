@@ -1,23 +1,22 @@
-from datetime import datetime
+from datetime import date
 from typing import List
 
 from pydantic import BaseModel, Field
 
-from flood_api.models.shared_types import Feature, FeatureCollection
+from flood_api.models.shared_types import CustomBaseModel, Feature, FeatureCollection
 
 
-class DetailedProperties(BaseModel):
-    issued_on: datetime = Field(
+class DetailedProperties(CustomBaseModel):
+    issued_on: date = Field(
         ...,
         description="The date the detailed forecast was issued on.",
-        json_schema_extra={"example": "2023-11-07T00:00:00Z"},
+        json_schema_extra={"example": "2023-11-07"},
     )
-    valid_time: datetime = Field(
+    valid_for: date = Field(
         ...,
-        description="The date and time indicating the end of the 24-hour forecast period for the flood. "
-        "This forecast represents the discharge expected between 00:00 and 23:59 of the previous day "
-        "relative to this timestamp.",
-        json_schema_extra={"example": "2023-12-01T00:00:00Z"},
+        description="The date of the 24-hour forecast period for the flood. "
+        "The forecast uses the discharge expected between 00:00 and 23:59 of that day.",
+        json_schema_extra={"example": "2023-12-01"},
     )
     step: int = Field(
         ...,

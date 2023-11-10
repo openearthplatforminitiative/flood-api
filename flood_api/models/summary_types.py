@@ -1,10 +1,10 @@
-from datetime import datetime
+from datetime import date
 from enum import Enum
 from typing import List
 
 from pydantic import BaseModel, Field, field_validator
 
-from flood_api.models.shared_types import Feature, FeatureCollection
+from flood_api.models.shared_types import CustomBaseModel, Feature, FeatureCollection
 
 
 class PeakTimingEnum(str, Enum):
@@ -26,11 +26,11 @@ class IntensityEnum(str, Enum):
     GREY = "G"
 
 
-class SummaryProperties(BaseModel):
-    issued_on: datetime = Field(
+class SummaryProperties(CustomBaseModel):
+    issued_on: date = Field(
         ...,
         description="The date the summary forecast was issued on.",
-        json_schema_extra={"example": "2023-11-07T00:00:00Z"},
+        json_schema_extra={"example": "2023-11-07"},
     )
     peak_step: int = Field(
         ...,
@@ -39,10 +39,10 @@ class SummaryProperties(BaseModel):
         description="The step number at which the peak occurs, ranging from 1 to 30.",
         json_schema_extra={"example": 1},
     )
-    peak_day: datetime = Field(
+    peak_day: date = Field(
         ...,
         description="The date the flood peak is forecasted to take place on.",
-        json_schema_extra={"example": "2023-11-07T00:00:00Z"},
+        json_schema_extra={"example": "2023-11-07"},
     )
     peak_timing: str = Field(
         ...,

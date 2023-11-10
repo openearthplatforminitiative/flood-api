@@ -9,6 +9,8 @@ from aiocron import crontab
 from fastapi import Depends, FastAPI, Request
 from shapely import wkt
 
+from flood_api.models.detailed_types import DetailedProperties
+from flood_api.models.summary_types import SummaryProperties
 from flood_api.settings import settings
 
 logger = logging.getLogger(__name__)
@@ -22,6 +24,14 @@ def fetch_parquet(path) -> gpd.GeoDataFrame:
         engine="fastparquet",
         storage_options={"anon": True},
     )
+
+    # Convert date fields to date objects
+    date_fields = set(
+        DetailedProperties.get_date_fields() + SummaryProperties.get_date_fields()
+    )
+    for col in date_fields:
+        if col in df.columns and isinstance(df[col].iloc[0], pd.Timestamp):
+            df[col] = pd.to_datetime(df[col]).dt.date
 
     # Convert WKT strings to geometry objects
     df["geometry"] = df["wkt"].apply(wkt.loads)

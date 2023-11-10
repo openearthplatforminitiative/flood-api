@@ -158,17 +158,7 @@ def get_data_for_point(
 
     if date_range is not None:
         # Filter the dataframe for the date range
-        # Since 'valid_time' represents the end of the 24 hour period,
-        # we need to add one day to the end date to get the correct results.
-        # For example:
-        # If the start date is 2021-01-01 and the end date is 2021-01-03,
-        # the query will return data for which valid_time is equal to
-        # 2021-01-02, 2021-01-03, and 2021-01-04, since valid_time represents
-        # the end of the 24 hour period.
-        start_date, end_date = [Timestamp(date) for date in date_range]
-        if end_date != Timestamp(date.max):
-            end_date += timedelta(days=1)
-        gdf = gdf[(gdf["valid_time"] > start_date) & (gdf["valid_time"] <= end_date)]
+        gdf = gdf[gdf["valid_for"].between(*date_range)]
 
     if include_neighbors:
         # Get the inflated geometry to find primary cell and neighbors
