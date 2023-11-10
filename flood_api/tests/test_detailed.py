@@ -1,7 +1,8 @@
+from datetime import date
+
 import geopandas as gpd
 import pandas as pd
 from fastapi.testclient import TestClient
-from pandas import Timestamp
 
 from flood_api.__main__ import app
 from flood_api.dependencies.flooddata import get_detailed_data
@@ -206,9 +207,9 @@ def test_detailed_day_range():
     gdf = gpd.GeoDataFrame.from_features(data["queried_cell"]["features"])
     gdf_neighbor = gpd.GeoDataFrame.from_features(data["neighboring_cells"]["features"])
 
-    # Convert 'valid_time' column to datetime
-    gdf["valid_time"] = pd.to_datetime(gdf["valid_time"])
-    gdf_neighbor["valid_time"] = pd.to_datetime(gdf_neighbor["valid_time"])
+    # Convert 'valid_for' column to date
+    gdf["valid_for"] = pd.to_datetime(gdf["valid_for"]).dt.date
+    gdf_neighbor["valid_for"] = pd.to_datetime(gdf_neighbor["valid_for"]).dt.date
 
     # Assert that dataframe is not empty
     assert not gdf.empty
@@ -217,6 +218,8 @@ def test_detailed_day_range():
     # Assert that 'step' column is increasing
     assert gdf["step"].is_monotonic_increasing
     assert gdf_neighbor["step"].is_monotonic_increasing
+
+    print(gdf["valid_for"])
 
     # Assert that row count is correct
     assert len(gdf) == 3
@@ -228,11 +231,11 @@ def test_detailed_day_range():
     assert gdf_neighbor["geometry"].nunique() == 1
     assert gdf_neighbor["issued_on"].nunique() == 1
 
-    # Assert that 'valid_time' is within the specified range
-    assert gdf["valid_time"].min() == Timestamp("2023-11-30")
-    assert gdf["valid_time"].max() == Timestamp("2023-12-02")
-    assert gdf_neighbor["valid_time"].min() == Timestamp("2023-11-30")
-    assert gdf_neighbor["valid_time"].max() == Timestamp("2023-12-02")
+    # Assert that 'valid_for' is within the specified range
+    assert gdf["valid_for"].min() == date(2023, 11, 29)
+    assert gdf["valid_for"].max() == date(2023, 12, 1)
+    assert gdf_neighbor["valid_for"].min() == date(2023, 11, 29)
+    assert gdf_neighbor["valid_for"].max() == date(2023, 12, 1)
 
 
 def test_detailed_day_range_no_start():
@@ -251,8 +254,8 @@ def test_detailed_day_range_no_start():
     # Convert the dictionary to a GeoDataFrame
     gdf = gpd.GeoDataFrame.from_features(data["queried_cell"]["features"])
 
-    # Convert 'valid_time' column to datetime
-    gdf["valid_time"] = pd.to_datetime(gdf["valid_time"])
+    # Convert 'valid_for' column to date
+    gdf["valid_for"] = pd.to_datetime(gdf["valid_for"]).dt.date
 
     # Assert that dataframe is not empty
     assert not gdf.empty
@@ -266,9 +269,9 @@ def test_detailed_day_range_no_start():
     # Assert that maximum step is correct
     assert gdf["step"].max() == TOTAL_STEPS
 
-    # Assert that 'valid_time' is within the specified range
-    assert gdf["valid_time"].min() == Timestamp("2023-11-30")
-    assert gdf["valid_time"].max() == Timestamp("2023-12-07")
+    # Assert that 'valid_for' is within the specified range
+    assert gdf["valid_for"].min() == date(2023, 11, 29)
+    assert gdf["valid_for"].max() == date(2023, 12, 9)
 
 
 def test_detailed_day_range_no_end():
@@ -287,8 +290,8 @@ def test_detailed_day_range_no_end():
     # Convert the dictionary to a GeoDataFrame
     gdf = gpd.GeoDataFrame.from_features(data["queried_cell"]["features"])
 
-    # Convert 'valid_time' column to datetime
-    gdf["valid_time"] = pd.to_datetime(gdf["valid_time"])
+    # Convert 'valid_for' column to date
+    gdf["valid_for"] = pd.to_datetime(gdf["valid_for"]).dt.date
 
     # Assert that dataframe is not empty
     assert not gdf.empty
@@ -302,6 +305,6 @@ def test_detailed_day_range_no_end():
     # Assert that minimum step is correct
     assert gdf["step"].min() == 1
 
-    # Assert that 'valid_time' is within the specified range
-    assert gdf["valid_time"].min() == Timestamp("2023-11-08")
-    assert gdf["valid_time"].max() == Timestamp("2023-12-02")
+    # Assert that 'valid_for' is within the specified range
+    assert gdf["valid_for"].min() == date(2023, 11, 10)
+    assert gdf["valid_for"].max() == date(2023, 12, 1)
