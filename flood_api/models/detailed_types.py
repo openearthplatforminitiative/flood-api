@@ -7,11 +7,6 @@ from flood_api.models.shared_types import BaseModelWithDates, Feature, FeatureCo
 
 
 class DetailedProperties(BaseModelWithDates):
-    # issued_on: date = Field(
-    #     ...,
-    #     description="The date the detailed forecast was issued on.",
-    #     json_schema_extra={"example": "2023-11-07"},
-    # )
     valid_for: date = Field(
         ...,
         description="The date of the 24-hour forecast period for the flood. "
