@@ -39,7 +39,7 @@ class SummaryProperties(BaseModelWithDates):
         description="The date the flood peak is forecasted to take place on, assuming UTC timezone.",
         json_schema_extra={"example": "2023-11-07"},
     )
-    peak_timing: str = Field(
+    peak_timing: PeakTimingEnum = Field(
         ...,
         description="The timing of the flood peak indicated by border and grayed colors."
         "BB: Black border, peak forecasted within days 1-3. "
