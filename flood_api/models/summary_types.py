@@ -51,31 +51,31 @@ class SummaryProperties(BaseModelWithDates):
     max_median_dis: float = Field(
         ...,
         ge=0.0,
-        description="The maximum of the median discharges over the forecast horizon.",
+        description="The maximum of the median discharges over the forecast horizon in m^3/s.",
         json_schema_extra={"example": 314.96875},
     )
     min_median_dis: float = Field(
         ...,
         ge=0.0,
-        description="The minimum of the median discharges over the forecast horizon.",
+        description="The minimum of the median discharges over the forecast horizon in m^3/s.",
         json_schema_extra={"example": 89.9921875},
     )
     control_dis: float = Field(
         ...,
         ge=0.0,
-        description="The control discharge value. Currently taken to be the median discharge of the first day in forecasted.",
+        description="The control discharge in m^3/s. Currently taken to be the median discharge of the first day in forecasted.",
         json_schema_extra={"example": 314.96875},
     )
     max_max_dis: float = Field(
         ...,
         ge=0.0,
-        description="The maximum of the maximum discharges over the forecast horizon.",
+        description="The maximum of the maximum discharges over the forecast horizon in m^3/s.",
         json_schema_extra={"example": 340.7265625},
     )
     min_min_dis: float = Field(
         ...,
         ge=0.0,
-        description="The minimum of the minimum discharges over the forecast horizon.",
+        description="The minimum of the minimum discharges over the forecast horizon in m^3/s.",
         json_schema_extra={"example": 67.703125},
     )
     tendency: TendencyEnum = Field(
