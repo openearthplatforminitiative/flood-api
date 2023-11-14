@@ -8,17 +8,20 @@ from flood_api.models.shared_types import Feature, FeatureCollection
 class ThresholdProperties(BaseModel):
     threshold_2y: float = Field(
         ...,
-        description="The 2-year return period threshold.",
+        description="The 2-year return period threshold in m^3/s.",
+        ge=0.0,
         json_schema_extra={"example": 17.34925885},
     )
     threshold_5y: float = Field(
         ...,
-        description="The 5-year return period threshold.",
+        description="The 5-year return period threshold in m^3/s.",
+        ge=0.0,
         json_schema_extra={"example": 19.26002567},
     )
     threshold_20y: float = Field(
         ...,
-        description="The 20-year return period threshold.",
+        description="The 20-year return period threshold in m^3/s.",
+        ge=0.0,
         json_schema_extra={"example": 30.15522911},
     )
 

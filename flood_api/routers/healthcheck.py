@@ -38,12 +38,20 @@ health.add_check(detailed_data_available)
 health.add_check(threshold_data_available)
 
 
-@router.get("/ready", tags=["health"])
+@router.get(
+    "/ready",
+    summary="Check if this service is ready to receive requests",
+    description="Returns a message describing the status of this service",
+)
 async def ready() -> Response:
     message, status_code, headers = health.run()
     return Response(content=message, headers=headers, status_code=status_code)
 
 
-@router.get("/health")
+@router.get(
+    "/health",
+    summary="Check if this service is alive",
+    description="Returns a simple message to indicate that this service is alive",
+)
 def liveness() -> dict[str, str]:
     return {"message": "Ok"}
