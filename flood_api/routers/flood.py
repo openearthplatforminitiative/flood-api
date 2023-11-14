@@ -24,7 +24,6 @@ router = APIRouter(tags=["flood"])
     "/summary",
     summary="Get summary forecast",
     description="Returns a summary forecast of the next 30 days for the given location",
-    response_model=SummaryResponseModel,
 )
 async def summary(
     gdf: SummaryDataDep,
@@ -64,7 +63,6 @@ async def summary(
     "/detailed",
     summary="Get detailed forecast",
     description="Returns a detailed forecast of the next 30 days for the given location",
-    response_model=DetailedResponseModel,
 )
 async def detailed(
     gdf: DetailedDataDep,
@@ -109,7 +107,6 @@ async def detailed(
     "/threshold",
     summary="Get return period thresholds",
     description="Returns the 2-, 5-, and 20-year return period thresholds for the given location",
-    response_model=ThresholdResponseModel,
 )
 async def threshold(
     gdf: ThresholdDataDep,
