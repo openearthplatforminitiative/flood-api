@@ -1,13 +1,12 @@
-from contextlib import asynccontextmanager
+import asyncio
 import logging
+from contextlib import asynccontextmanager
 
 from fastapi import FastAPI
 
 from flood_api.dependencies.flooddata import fetch_flood_data, flood_data_fetcher
 from flood_api.routers import flood, healthcheck
 from flood_api.settings import settings
-
-import asyncio
 
 
 @asynccontextmanager
@@ -21,6 +20,7 @@ app = FastAPI(
     title="Flood API",
     lifespan=lifespan,
     version=settings.version,
+    description=settings.api_description,
     root_path=settings.api_root_path,
 )
 app.include_router(flood.router)
