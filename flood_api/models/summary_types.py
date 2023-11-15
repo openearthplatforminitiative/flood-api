@@ -23,7 +23,7 @@ class IntensityEnum(str, Enum):
     PURPLE = "P"
     RED = "R"
     YELLOW = "Y"
-    GREY = "G"
+    GRAY = "G"
 
 
 class SummaryProperties(BaseModelWithDates):
@@ -36,16 +36,16 @@ class SummaryProperties(BaseModelWithDates):
     )
     peak_day: date = Field(
         ...,
-        description="The date the flood peak is forecasted to take place on, assuming UTC timezone.",
+        description="The date on which the flood peak is forecasted to occur, assuming UTC timezone.",
         json_schema_extra={"example": "2023-11-07"},
     )
     peak_timing: PeakTimingEnum = Field(
         ...,
-        description="The timing of the flood peak indicated by border and grayed colors."
+        description="The timing of the flood peak indicated by border and grayed colors. "
         "BB: Black border, peak forecasted within days 1-3. "
-        "GC: Greyed color, peak forecasted after day 10 with <30% probability of exceeding "
+        "GC: Grayed color, peak forecasted after day 10 with <30% probability of exceeding "
         "the 2-year return period threshold in first 10 days. "
-        "GB: Grey border, floods of some severity in first 10 days and peak after day 3.",
+        "GB: Gray border, floods of some severity in first 10 days and peak after day 3.",
         json_schema_extra={"example": "BB"},
     )
     max_median_dis: float = Field(
@@ -80,7 +80,7 @@ class SummaryProperties(BaseModelWithDates):
     )
     tendency: TendencyEnum = Field(
         ...,
-        description="Flood tendency (indicated by shape) according to the evolution of flood intensity signal over the forecast horizon. "
+        description="The flood tendency (indicated by shape) according to the evolution of flood intensity signal over the forecast horizon. "
         "U: Upward triangle, increasing trend over the next 30-days with 30-day max median exceeding initial (control) discharge by >10%. "
         "D: Downward triangle, decreasing trend over the next 30-days with 30-day max median not exceeding initial discharge by >10% and min median is >=10% below initial discharge. "
         "C: Circle, stagnant flow with no significant trend detected.",
