@@ -4,8 +4,7 @@ from typing import List, Optional
 
 from pydantic import BaseModel, Field, field_validator
 
-from flood_api.models.shared_types import (BaseModelWithDates, Feature,
-                                           FeatureCollection)
+from flood_api.models.shared_types import BaseModelWithDates, Feature, FeatureCollection
 
 
 class PeakTimingEnum(str, Enum):
