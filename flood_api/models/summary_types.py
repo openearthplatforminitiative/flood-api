@@ -4,7 +4,8 @@ from typing import List, Optional
 
 from pydantic import BaseModel, Field, field_validator
 
-from flood_api.models.shared_types import BaseModelWithDates, Feature, FeatureCollection
+from flood_api.models.shared_types import (BaseModelWithDates, Feature,
+                                           FeatureCollection)
 
 
 class PeakTimingEnum(str, Enum):
@@ -157,11 +158,11 @@ class SummaryFeatureCollection(FeatureCollection):
 
 
 class SummaryResponseModel(BaseModel):
-    queried_data: SummaryFeatureCollection = Field(
+    queried_location: SummaryFeatureCollection = Field(
         ...,
         description="A feature collection representing the queried location's summary forecast data.",
     )
-    neighboring_data: Optional[SummaryFeatureCollection] = Field(
+    neighboring_location: Optional[SummaryFeatureCollection] = Field(
         default=None,
         description="A feature collection representing the neighboring location's summary forecast data, potentially empty if there is no neighboring forecast data.",
     )

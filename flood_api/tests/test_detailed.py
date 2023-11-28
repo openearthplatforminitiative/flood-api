@@ -218,7 +218,7 @@ def test_detailed_point_border_query():
     assert response.status_code == 200
 
     # Convert the dictionary to a GeoDataFrame
-    gdf = gpd.GeoDataFrame.from_features(data["queried_data"]["features"])
+    gdf = gpd.GeoDataFrame.from_features(data["queried_location"]["features"])
 
     # Assert that dataframe is not empty
     assert not gdf.empty
@@ -233,7 +233,7 @@ def test_detailed_point_border_query():
     assert response.status_code == 200
 
     # Convert the dictionary to a GeoDataFrame
-    gdf = gpd.GeoDataFrame.from_features(data["queried_data"]["features"])
+    gdf = gpd.GeoDataFrame.from_features(data["queried_location"]["features"])
 
     # Assert that dataframe is empty
     assert gdf.empty
@@ -289,7 +289,7 @@ def test_detailed_point_general():
     assert response.status_code == 200
 
     # Convert the dictionary to a GeoDataFrame
-    gdf = gpd.GeoDataFrame.from_features(data["queried_data"]["features"])
+    gdf = gpd.GeoDataFrame.from_features(data["queried_location"]["features"])
 
     # Assert that dataframe is not empty
     assert not gdf.empty
@@ -315,7 +315,9 @@ def test_detailed_point_neighbor():
     assert response.status_code == 200
 
     # Convert the dictionary to a GeoDataFrame
-    gdf_neighbor = gpd.GeoDataFrame.from_features(data["neighboring_data"]["features"])
+    gdf_neighbor = gpd.GeoDataFrame.from_features(
+        data["neighboring_location"]["features"]
+    )
 
     # Assert that dataframe is not empty
     assert not gdf_neighbor.empty
@@ -347,8 +349,10 @@ def test_detailed_point_day_range():
     assert response.status_code == 200
 
     # Convert the dictionary to a GeoDataFrame
-    gdf = gpd.GeoDataFrame.from_features(data["queried_data"]["features"])
-    gdf_neighbor = gpd.GeoDataFrame.from_features(data["neighboring_data"]["features"])
+    gdf = gpd.GeoDataFrame.from_features(data["queried_location"]["features"])
+    gdf_neighbor = gpd.GeoDataFrame.from_features(
+        data["neighboring_location"]["features"]
+    )
 
     # Convert 'valid_for' column to date
     gdf["valid_for"] = pd.to_datetime(gdf["valid_for"]).dt.date
@@ -393,7 +397,7 @@ def test_detailed_point_day_range_no_start():
     assert response.status_code == 200
 
     # Convert the dictionary to a GeoDataFrame
-    gdf = gpd.GeoDataFrame.from_features(data["queried_data"]["features"])
+    gdf = gpd.GeoDataFrame.from_features(data["queried_location"]["features"])
 
     # Convert 'valid_for' column to date
     gdf["valid_for"] = pd.to_datetime(gdf["valid_for"]).dt.date
@@ -429,7 +433,7 @@ def test_detailed_point_day_range_no_end():
     assert response.status_code == 200
 
     # Convert the dictionary to a GeoDataFrame
-    gdf = gpd.GeoDataFrame.from_features(data["queried_data"]["features"])
+    gdf = gpd.GeoDataFrame.from_features(data["queried_location"]["features"])
 
     # Convert 'valid_for' column to date
     gdf["valid_for"] = pd.to_datetime(gdf["valid_for"]).dt.date
@@ -466,7 +470,7 @@ def test_detailed_bbox_general():
     assert response.status_code == 200
 
     # Convert the dictionary to a GeoDataFrame
-    gdf = gpd.GeoDataFrame.from_features(data["queried_data"]["features"])
+    gdf = gpd.GeoDataFrame.from_features(data["queried_location"]["features"])
 
     # Assert that dataframe is not empty
     assert not gdf.empty
@@ -491,7 +495,7 @@ def test_detailed_bbox_general():
     assert response.status_code == 200
 
     # Convert the dictionary to a GeoDataFrame
-    gdf = gpd.GeoDataFrame.from_features(data["queried_data"]["features"])
+    gdf = gpd.GeoDataFrame.from_features(data["queried_location"]["features"])
 
     # Assert that dataframe is not empty
     assert not gdf.empty

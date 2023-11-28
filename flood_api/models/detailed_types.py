@@ -88,11 +88,11 @@ class DetailedFeatureCollection(FeatureCollection):
 
 
 class DetailedResponseModel(BaseModel):
-    queried_data: DetailedFeatureCollection = Field(
+    queried_location: DetailedFeatureCollection = Field(
         ...,
         description="A feature collection representing the queried location's detailed forecast data.",
     )
-    neighboring_data: Optional[DetailedFeatureCollection] = Field(
+    neighboring_location: Optional[DetailedFeatureCollection] = Field(
         default=None,
         description="A feature collection representing the neighboring location's detailed forecast data, potentially empty if there is no neighboring forecast data.",
     )

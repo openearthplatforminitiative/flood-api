@@ -29,7 +29,7 @@ router = APIRouter(tags=["flood"])
 @router.get(
     "/summary",
     summary="Get summary forecast for a location",
-    description="Returns a summary forecast of the next 30 days either for the cell at the given location or for the cells within the given bounding box",
+    description="Returns a summary forecast of the next 30 days either for the cell at the given coordinates or for the cells within the given bounding box",
 )
 async def summary(
     gdf: SummaryDataDep,
@@ -45,7 +45,7 @@ async def summary(
 
     if coordinates is not None:
         validate_coordinates(*coordinates)
-        queried_data, neighboring_data = get_data_for_point(
+        queried_location, neighboring_location = get_data_for_point(
             *coordinates,
             include_neighbors=include_neighbors,
             gdf=gdf,
@@ -53,27 +53,30 @@ async def summary(
 
     elif bbox is not None:
         validate_bounding_box(*bbox)
-        queried_data = get_data_for_bbox(
+        queried_location = get_data_for_bbox(
             bbox=bbox,
             gdf=gdf,
         )
-        neighboring_data = None
+        neighboring_location = None
 
     summary_cols = list(SummaryProperties.model_fields.keys())
 
-    queried_data_geojson = dataframe_to_geojson(df=queried_data, columns=summary_cols)
+    queried_location_geojson = dataframe_to_geojson(
+        df=queried_location, columns=summary_cols
+    )
 
     sort_columns = ["latitude", "longitude"]
 
-    if neighboring_data is None:
-        neighboring_data_geojson = None
+    if neighboring_location is None:
+        neighboring_location_geojson = None
     else:
-        neighboring_data_geojson = dataframe_to_geojson(
-            df=neighboring_data, columns=summary_cols, sort_columns=sort_columns
+        neighboring_location_geojson = dataframe_to_geojson(
+            df=neighboring_location, columns=summary_cols, sort_columns=sort_columns
         )
 
     response = SummaryResponseModel(
-        queried_data=queried_data_geojson, neighboring_data=neighboring_data_geojson
+        queried_location=queried_location_geojson,
+        neighboring_location=neighboring_location_geojson,
     )
 
     return response
@@ -82,7 +85,7 @@ async def summary(
 @router.get(
     "/detailed",
     summary="Get detailed forecast for a location",
-    description="Returns a detailed forecast of the next 30 days either for the cell at the given location or for the cells within the given bounding box",
+    description="Returns a detailed forecast of the next 30 days either for the cell at the given coordinates or for the cells within the given bounding box",
 )
 async def detailed(
     gdf: DetailedDataDep,
@@ -101,7 +104,7 @@ async def detailed(
 
     if coordinates is not None:
         validate_coordinates(*coordinates)
-        queried_data, neighboring_data = get_data_for_point(
+        queried_location, neighboring_location = get_data_for_point(
             *coordinates,
             include_neighbors=include_neighbors,
             gdf=gdf,
@@ -110,30 +113,31 @@ async def detailed(
 
     elif bbox is not None:
         validate_bounding_box(*bbox)
-        queried_data = get_data_for_bbox(
+        queried_location = get_data_for_bbox(
             bbox=bbox,
             gdf=gdf,
             date_range=date_range,
         )
-        neighboring_data = None
+        neighboring_location = None
 
     detailed_cols = list(DetailedProperties.model_fields.keys())
 
     sort_columns = ["latitude", "longitude", "step"]
 
-    queried_data_geojson = dataframe_to_geojson(
-        df=queried_data, columns=detailed_cols, sort_columns=sort_columns
+    queried_location_geojson = dataframe_to_geojson(
+        df=queried_location, columns=detailed_cols, sort_columns=sort_columns
     )
 
-    if neighboring_data is None:
-        neighboring_data_geojson = None
+    if neighboring_location is None:
+        neighboring_location_geojson = None
     else:
-        neighboring_data_geojson = dataframe_to_geojson(
-            df=neighboring_data, columns=detailed_cols, sort_columns=sort_columns
+        neighboring_location_geojson = dataframe_to_geojson(
+            df=neighboring_location, columns=detailed_cols, sort_columns=sort_columns
         )
 
     response = DetailedResponseModel(
-        queried_data=queried_data_geojson, neighboring_data=neighboring_data_geojson
+        queried_location=queried_location_geojson,
+        neighboring_location=neighboring_location_geojson,
     )
 
     return response
@@ -142,7 +146,7 @@ async def detailed(
 @router.get(
     "/threshold",
     summary="Get return period thresholds for a location",
-    description="Returns the 2-, 5-, and 20-year return period thresholds either for the cell at the given location or for the cells within the given bounding box",
+    description="Returns the 2-, 5-, and 20-year return period thresholds either for the cell at the given coordinates or for the cells within the given bounding box",
 )
 async def threshold(
     gdf: ThresholdDataDep,
@@ -157,27 +161,27 @@ async def threshold(
 
     if coordinates is not None:
         validate_coordinates(*coordinates)
-        queried_data, _ = get_data_for_point(
+        queried_location, _ = get_data_for_point(
             *coordinates,
             gdf=gdf,
         )
 
     elif bbox is not None:
         validate_bounding_box(*bbox)
-        queried_data = get_data_for_bbox(
+        queried_location = get_data_for_bbox(
             bbox=bbox,
             gdf=gdf,
         )
 
     threshold_cols = list(ThresholdProperties.model_fields.keys())
 
-    queried_data_geojson = dataframe_to_geojson(
-        df=queried_data,
+    queried_location_geojson = dataframe_to_geojson(
+        df=queried_location,
         columns=threshold_cols,
     )
 
     response = ThresholdResponseModel(
-        queried_data=queried_data_geojson,
+        queried_location=queried_location_geojson,
     )
 
     return response

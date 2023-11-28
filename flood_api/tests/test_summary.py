@@ -213,7 +213,7 @@ def test_summary_point_border_query():
     assert response.status_code == 200
 
     # Convert the dictionary to a GeoDataFrame
-    gdf = gpd.GeoDataFrame.from_features(data["queried_data"]["features"])
+    gdf = gpd.GeoDataFrame.from_features(data["queried_location"]["features"])
 
     # Assert that dataframe is not empty
     assert not gdf.empty
@@ -228,7 +228,7 @@ def test_summary_point_border_query():
     assert response.status_code == 200
 
     # Convert the dictionary to a GeoDataFrame
-    gdf = gpd.GeoDataFrame.from_features(data["queried_data"]["features"])
+    gdf = gpd.GeoDataFrame.from_features(data["queried_location"]["features"])
 
     # Assert that dataframe is empty
     assert gdf.empty
@@ -244,7 +244,9 @@ def test_summary_point_neighbor():
     assert response.status_code == 200
 
     # Convert the dictionary to a GeoDataFrame
-    gdf_neighbors = gpd.GeoDataFrame.from_features(data["neighboring_data"]["features"])
+    gdf_neighbors = gpd.GeoDataFrame.from_features(
+        data["neighboring_location"]["features"]
+    )
 
     # Assert that dataframe is not empty
     assert not gdf_neighbors.empty
@@ -265,7 +267,7 @@ def test_summary_bbox_general():
     assert response.status_code == 200
 
     # Convert the dictionary to a GeoDataFrame
-    gdf = gpd.GeoDataFrame.from_features(data["queried_data"]["features"])
+    gdf = gpd.GeoDataFrame.from_features(data["queried_location"]["features"])
 
     # Assert that dataframe is not empty
     assert not gdf.empty
@@ -287,7 +289,7 @@ def test_summary_bbox_general():
     assert response.status_code == 200
 
     # Convert the dictionary to a GeoDataFrame
-    gdf = gpd.GeoDataFrame.from_features(data["queried_data"]["features"])
+    gdf = gpd.GeoDataFrame.from_features(data["queried_location"]["features"])
 
     # Assert that dataframe is not empty
     assert not gdf.empty
