@@ -1,23 +1,61 @@
 from datetime import date
-from typing import Annotated
+from typing import Annotated, Optional
 
 from fastapi import Depends, Query
 
 
 def coordinates(
     lon: Annotated[
-        float,
+        float | None,
         Query(description="Longitude of the coordinate to retrieve data for"),
-    ],
+    ] = None,
     lat: Annotated[
-        float,
+        float | None,
         Query(description="Latitude of the coordinate to retrieve data for"),
-    ],
-) -> (float, float):
-    return lon, lat
+    ] = None,
+) -> Optional[tuple[float, float]]:
+    if all([lat, lon]):
+        return (lat, lon)
+    return None
 
 
-CoordinatesDep = Annotated[tuple[float, float], Depends(coordinates)]
+CoordinatesDep = Annotated[Optional[tuple[float, float]], Depends(coordinates)]
+
+
+def bounding_box(
+    min_lat: Annotated[
+        float | None,
+        Query(
+            description="Minimum latitude of the bounding box to retrieve data for",
+        ),
+    ] = None,
+    max_lat: Annotated[
+        float | None,
+        Query(
+            description="Maximum latitude of the bounding box to retrieve data for",
+        ),
+    ] = None,
+    min_lon: Annotated[
+        float | None,
+        Query(
+            description="Minimum longitude of the bounding box to retrieve data for",
+        ),
+    ] = None,
+    max_lon: Annotated[
+        float | None,
+        Query(
+            description="Maximum longitude of the bounding box to retrieve data for",
+        ),
+    ] = None,
+) -> Optional[tuple[float, float, float, float]]:
+    if all([min_lat, max_lat, min_lon, max_lon]):
+        return (min_lat, max_lat, min_lon, max_lon)
+    return None
+
+
+BoundingBoxDep = Annotated[
+    Optional[tuple[float, float, float, float]], Depends(bounding_box)
+]
 
 
 def include_neighbors(

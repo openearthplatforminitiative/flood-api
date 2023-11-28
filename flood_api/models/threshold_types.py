@@ -41,7 +41,7 @@ class ThresholdFeatureCollection(FeatureCollection):
 
 
 class ThresholdResponseModel(BaseModel):
-    queried_cell: ThresholdFeatureCollection = Field(
+    queried_data: ThresholdFeatureCollection = Field(
         ...,
-        description="A feature collection representing the queried cell's threshold data for flood risk analysis.",
+        description="A feature collection representing the queried location's threshold data for flood risk analysis.",
     )

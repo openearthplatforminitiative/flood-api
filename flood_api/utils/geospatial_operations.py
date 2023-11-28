@@ -1,9 +1,8 @@
-from datetime import date, timedelta
+from datetime import date
 from decimal import Decimal, getcontext
 from math import floor
 
 import geopandas as gpd
-from pandas import Timestamp
 from shapely.geometry import Polygon
 
 # Set the precision high enough to handle the arithmetic correctly
@@ -107,6 +106,57 @@ def create_polygon_from_bounds(
     return Polygon([bottom_left, top_left, top_right, bottom_right, bottom_left])
 
 
+def get_data_for_roi(
+    roi: Polygon,
+    gdf: gpd.GeoDataFrame,
+    date_range: tuple[date, date] = None,
+    expanded_roi: Polygon = None,
+) -> tuple[gpd.GeoDataFrame, gpd.GeoDataFrame]:
+    """
+    Given a region of interest, return the data for the grid cells
+    that it overlaps with. Optionally, include the data for neighboring cells
+    by providing an expanded region of interest. A date range can also be provided
+    to filter the data, yielding only the data within the date range (inclusive).
+    If no date range is provided, data for all dates will be returned.
+
+    Parameters:
+    - roi (Polygon): The region of interest.
+    - gdf (GeoDataFrame): The GeoDataFrame to query.
+    - date_range (tuple, optional): The date range to query (inclusive). Defaults to None.
+    - expanded_roi (Polygon, optional): The expanded region of interest. Used to get neighboring cells. Defaults to None.
+
+    Returns:
+    tuple: The primary cells and neighbors as GeoDataFrames.
+    """
+
+    neighbors_only_df = None
+
+    if date_range is not None:
+        # Filter the dataframe for the date range
+        gdf = gdf[gdf["valid_for"].between(*date_range)]
+
+    if expanded_roi is not None:
+        # Query the dataframe for possible matches
+        # using the expanded roi to get the primary
+        # cells and neighbors
+        possible_matches_index = gdf.sindex.query(expanded_roi, predicate="intersects")
+        all_cells_df = gdf.iloc[possible_matches_index]
+
+        # Define mask for distinguishing between primary cells and neighbors
+        primary_cells_mask = all_cells_df["geometry"].intersects(roi)
+
+        # Define primary cells and neighbors dataframes
+        primary_cells_df = all_cells_df[primary_cells_mask]
+        neighbors_only_df = all_cells_df[~primary_cells_mask]
+    else:
+        # Query the main dataframe for possible matches
+        # using the roi to get only the primary cells
+        possible_matches_index = gdf.sindex.query(roi, predicate="intersects")
+        primary_cells_df = gdf.iloc[possible_matches_index]
+
+    return primary_cells_df, neighbors_only_df
+
+
 def get_data_for_point(
     latitude: float,
     longitude: float,
@@ -154,40 +204,48 @@ def get_data_for_point(
         *cell_bounds, buffer=-GLOFAS_RESOLUTION / 2, precision=GLOFAS_PRECISION
     )
 
-    neighbors_only_df = gpd.GeoDataFrame(geometry=[])
-
-    if date_range is not None:
-        # Filter the dataframe for the date range
-        gdf = gdf[gdf["valid_for"].between(*date_range)]
-
+    # Get the inflated geometry to find primary cell and neighbors
     if include_neighbors:
-        # Get the inflated geometry to find primary cell and neighbors
         expanded_geometry = create_polygon_from_bounds(
             *cell_bounds, buffer=GLOFAS_RESOLUTION / 2, precision=GLOFAS_PRECISION
         )
-
-        # Query the main dataframe for possible matches
-        # We use the expanded geometry to get the primary
-        # cell and neighbors
-        possible_matches_index = gdf.sindex.query(
-            expanded_geometry, predicate="intersects"
-        )
-        all_cells_df = gdf.iloc[possible_matches_index]
-
-        # Define mask for distinguishing between primary cell and neighbors
-        primary_cell_mask = all_cells_df["geometry"].intersects(reduced_geometry)
-
-        # Define primary cell and neighbors dataframes
-        primary_cell_df = all_cells_df[primary_cell_mask]
-        neighbors_only_df = all_cells_df[~primary_cell_mask]
-
     else:
-        # Query the main dataframe for possible matches
-        # This is the same as the expanded geometry,
-        # but we use the reduced geometry to get only the primary cell
-        possible_matches_index = gdf.sindex.query(
-            reduced_geometry, predicate="intersects"
-        )
-        primary_cell_df = gdf.iloc[possible_matches_index]
+        expanded_geometry = None
 
-    return primary_cell_df, neighbors_only_df
+    return get_data_for_roi(
+        roi=reduced_geometry,
+        gdf=gdf,
+        date_range=date_range,
+        expanded_roi=expanded_geometry,
+    )
+
+
+def get_data_for_bbox(
+    bbox: tuple[float, float, float, float],
+    gdf: gpd.GeoDataFrame,
+    date_range: tuple[date, date] = None,
+) -> gpd.GeoDataFrame:
+    """
+    Given a bounding box, return the data for the grid cells
+    that fall into it. Optionally, a date range can be provided
+    to filter the data, yielding only the data within the date
+    range (inclusive). If no date range is provided, data for
+    all dates will be returned.
+
+    Parameters:
+    - bbox (tuple[float, float, float, float]): The bounding box to query with
+    the following elements: `(min_lat, max_lat, min_lon, max_lon)`.
+    - gdf (GeoDataFrame): The GeoDataFrame to query.
+    - date_range (tuple, optional): The date range to query (inclusive). Defaults to None.
+
+    Returns:
+    GeoDataFrame: The queried data as a GeoDataFrame.
+    """
+    # Get the deflated geometry to find primary cells
+    reduced_bbox = create_polygon_from_bounds(*bbox, buffer=0, precision=9)
+
+    primary_cells_df, _ = get_data_for_roi(
+        roi=reduced_bbox, gdf=gdf, date_range=date_range
+    )
+
+    return primary_cells_df

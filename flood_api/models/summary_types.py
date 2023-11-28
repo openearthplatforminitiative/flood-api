@@ -1,6 +1,6 @@
 from datetime import date
 from enum import Enum
-from typing import List
+from typing import List, Optional
 
 from pydantic import BaseModel, Field, field_validator
 
@@ -157,11 +157,11 @@ class SummaryFeatureCollection(FeatureCollection):
 
 
 class SummaryResponseModel(BaseModel):
-    queried_cell: SummaryFeatureCollection = Field(
+    queried_data: SummaryFeatureCollection = Field(
         ...,
-        description="A feature collection representing the queried cell's summary forecast data.",
+        description="A feature collection representing the queried location's summary forecast data.",
     )
-    neighboring_cells: SummaryFeatureCollection = Field(
-        ...,
-        description="A feature collection representing the neighboring cells' summary forecast data, potentially empty if there are no neighboring cells with forecast data.",
+    neighboring_data: Optional[SummaryFeatureCollection] = Field(
+        default=None,
+        description="A feature collection representing the neighboring location's summary forecast data, potentially empty if there is no neighboring forecast data.",
     )
