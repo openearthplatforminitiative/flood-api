@@ -67,7 +67,7 @@ def validate_bounding_box(
     if not bounding_box_within_roi:
         raise HTTPException(
             status_code=INVALID_STATUS_CODE,
-            detail="Queried bounding box is outside the region of interest",
+            detail="Queried bounding box is not within the region of interest",
         )
 
 
