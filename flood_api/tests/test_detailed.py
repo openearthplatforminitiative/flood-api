@@ -66,6 +66,26 @@ def test_detailed_arg_validity():
 
     assert response.status_code == expected_error_code
 
+    # One of the coordinates is zero
+    params = {
+        "lon": 0.0,
+        "lat": 6.2,
+    }
+    response = get_detailed_response(params)
+
+    assert response.status_code == 200
+
+    # One of the bounding box coordinates is zero
+    params = {
+        "min_lon": 0.0,
+        "max_lon": 40.0,
+        "min_lat": 6.225,
+        "max_lat": 6.25,
+    }
+    response = get_detailed_response(params)
+
+    assert response.status_code == 200
+
 
 def test_detailed_point_validity():
     min_lat = GLOFAS_ROI["min_lat"]

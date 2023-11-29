@@ -14,9 +14,10 @@ def coordinates(
         Query(description="Latitude of the coordinate to retrieve data for"),
     ] = None,
 ) -> Optional[tuple[float, float]]:
-    if all([lat, lon]):
-        return (lat, lon)
-    return None
+    coordinates = (lat, lon)
+    if any(val is None for val in coordinates):
+        return None
+    return coordinates
 
 
 CoordinatesDep = Annotated[Optional[tuple[float, float]], Depends(coordinates)]
@@ -48,9 +49,10 @@ def bounding_box(
         ),
     ] = None,
 ) -> Optional[tuple[float, float, float, float]]:
-    if all([min_lat, max_lat, min_lon, max_lon]):
-        return (min_lat, max_lat, min_lon, max_lon)
-    return None
+    bbox = (min_lat, max_lat, min_lon, max_lon)
+    if any(val is None for val in bbox):
+        return None
+    return bbox
 
 
 BoundingBoxDep = Annotated[
