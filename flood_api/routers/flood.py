@@ -15,11 +15,6 @@ from flood_api.models.summary_types import SummaryProperties, SummaryResponseMod
 from flood_api.models.threshold_types import ThresholdProperties, ThresholdResponseModel
 from flood_api.utils.geospatial_operations import get_data_for_bbox, get_data_for_point
 from flood_api.utils.json_utilities import dataframe_to_geojson
-from flood_api.utils.validation_helpers import (
-    validate_bounding_box,
-    validate_coordinates,
-    validate_dates,
-)
 
 router = APIRouter(tags=["flood"])
 
@@ -39,18 +34,13 @@ async def summary(
 ) -> SummaryResponseModel:
     match location_query:
         case lat, lon:
-            validate_coordinates(lat, lon)
             queried_location, neighboring_location = get_data_for_point(
                 latitude=lat,
                 longitude=lon,
                 include_neighbors=include_neighbors,
                 gdf=gdf,
             )
-
         case min_lat, max_lat, min_lon, max_lon:
-            validate_bounding_box(
-                min_lat=min_lat, max_lat=max_lat, min_lon=min_lon, max_lon=max_lon
-            )
             queried_location = get_data_for_bbox(
                 bbox=location_query,
                 gdf=gdf,
@@ -94,11 +84,8 @@ async def detailed(
     include_neighbors: IncludeNeighborsDep,
     date_range: DateRangeDep,
 ) -> DetailedResponseModel:
-    validate_dates(*date_range)
-
     match location_query:
         case lat, lon:
-            validate_coordinates(lat, lon)
             queried_location, neighboring_location = get_data_for_point(
                 latitude=lat,
                 longitude=lon,
@@ -106,11 +93,7 @@ async def detailed(
                 gdf=gdf,
                 date_range=date_range,
             )
-
         case min_lat, max_lat, min_lon, max_lon:
-            validate_bounding_box(
-                min_lat=min_lat, max_lat=max_lat, min_lon=min_lon, max_lon=max_lon
-            )
             queried_location = get_data_for_bbox(
                 bbox=location_query,
                 gdf=gdf,
@@ -154,15 +137,10 @@ async def threshold(
 ) -> ThresholdResponseModel:
     match location_query:
         case lat, lon:
-            validate_coordinates(lat, lon)
             queried_location, _ = get_data_for_point(
                 longitude=lon, latitude=lat, gdf=gdf
             )
-
         case min_lat, max_lat, min_lon, max_lon:
-            validate_bounding_box(
-                min_lat=min_lat, max_lat=max_lat, min_lon=min_lon, max_lon=max_lon
-            )
             queried_location = get_data_for_bbox(bbox=location_query, gdf=gdf)
 
     threshold_cols = list(ThresholdProperties.model_fields.keys())

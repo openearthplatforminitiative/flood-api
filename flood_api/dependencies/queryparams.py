@@ -4,6 +4,11 @@ from typing import Annotated, Optional, Union
 from fastapi import Depends, HTTPException, Query
 
 from flood_api.settings import settings
+from flood_api.utils.validation_helpers import (
+    validate_bounding_box,
+    validate_coordinates,
+    validate_dates,
+)
 
 INVALID_STATUS_CODE = settings.invalid_query_status_code
 
@@ -25,19 +30,22 @@ def location_query_dependency(
         if None not in (min_lat, max_lat, min_lon, max_lon)
         else None
     )
-
-    if coordinates is None and bbox is None:
+    if not (coordinates or bbox):
         raise HTTPException(
             status_code=INVALID_STATUS_CODE,
             detail="Either coordinates or bounding box must be provided.",
         )
-    if coordinates is not None and bbox is not None:
+    if coordinates and bbox:
         raise HTTPException(
             status_code=INVALID_STATUS_CODE,
             detail="Only coordinates or bounding box can be provided, not both.",
         )
-
-    return coordinates or bbox
+    if coordinates:
+        validate_coordinates(*coordinates)
+        return coordinates
+    else:  # bbox is not None
+        validate_bounding_box(*bbox)
+        return bbox
 
 
 LocationQueryDep = Annotated[
@@ -79,6 +87,7 @@ def date_range(
         start_date = date.min
     if end_date is None:
         end_date = date.max
+    validate_dates(start_date, end_date)
     return start_date, end_date
 
 
