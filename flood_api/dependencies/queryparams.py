@@ -3,6 +3,10 @@ from typing import Annotated, Optional, Union
 
 from fastapi import Depends, HTTPException, Query
 
+from flood_api.settings import settings
+
+INVALID_STATUS_CODE = settings.invalid_query_status_code
+
 # Define a union type for the dependency
 LocationQuery = Union[tuple[float, float], tuple[float, float, float, float]]
 
@@ -24,12 +28,12 @@ def location_query_dependency(
 
     if coordinates is None and bbox is None:
         raise HTTPException(
-            status_code=400,
+            status_code=INVALID_STATUS_CODE,
             detail="Either coordinates or bounding box must be provided.",
         )
     if coordinates is not None and bbox is not None:
         raise HTTPException(
-            status_code=400,
+            status_code=INVALID_STATUS_CODE,
             detail="Only coordinates or bounding box can be provided, not both.",
         )
 
