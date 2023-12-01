@@ -1,62 +1,43 @@
 from datetime import date
-from typing import Annotated, Optional
+from typing import Annotated, Optional, Union
 
-from fastapi import Depends, Query
+from fastapi import Depends, HTTPException, Query
 
-
-def coordinates(
-    lon: Annotated[
-        float | None,
-        Query(description="Longitude of the coordinate to retrieve data for"),
-    ] = None,
-    lat: Annotated[
-        float | None,
-        Query(description="Latitude of the coordinate to retrieve data for"),
-    ] = None,
-) -> Optional[tuple[float, float]]:
-    coordinates = (lat, lon)
-    if any(val is None for val in coordinates):
-        return None
-    return coordinates
+# Define a union type for the dependency
+LocationQuery = Union[tuple[float, float], tuple[float, float, float, float]]
 
 
-CoordinatesDep = Annotated[Optional[tuple[float, float]], Depends(coordinates)]
+def location_query_dependency(
+    lon: Annotated[float | None, Query(description="Longitude")] = None,
+    lat: Annotated[float | None, Query(description="Latitude")] = None,
+    min_lon: Annotated[float | None, Query(description="Minimum longitude")] = None,
+    max_lon: Annotated[float | None, Query(description="Maximum longitude")] = None,
+    min_lat: Annotated[float | None, Query(description="Minimum latitude")] = None,
+    max_lat: Annotated[float | None, Query(description="Maximum latitude")] = None,
+) -> LocationQuery:
+    coordinates = (lat, lon) if None not in (lat, lon) else None
+    bbox = (
+        (min_lat, max_lat, min_lon, max_lon)
+        if None not in (min_lat, max_lat, min_lon, max_lon)
+        else None
+    )
+
+    if coordinates is None and bbox is None:
+        raise HTTPException(
+            status_code=400,
+            detail="Either coordinates or bounding box must be provided.",
+        )
+    if coordinates is not None and bbox is not None:
+        raise HTTPException(
+            status_code=400,
+            detail="Only coordinates or bounding box can be provided, not both.",
+        )
+
+    return coordinates or bbox
 
 
-def bounding_box(
-    min_lat: Annotated[
-        float | None,
-        Query(
-            description="Minimum latitude of the bounding box to retrieve data for",
-        ),
-    ] = None,
-    max_lat: Annotated[
-        float | None,
-        Query(
-            description="Maximum latitude of the bounding box to retrieve data for",
-        ),
-    ] = None,
-    min_lon: Annotated[
-        float | None,
-        Query(
-            description="Minimum longitude of the bounding box to retrieve data for",
-        ),
-    ] = None,
-    max_lon: Annotated[
-        float | None,
-        Query(
-            description="Maximum longitude of the bounding box to retrieve data for",
-        ),
-    ] = None,
-) -> Optional[tuple[float, float, float, float]]:
-    bbox = (min_lat, max_lat, min_lon, max_lon)
-    if any(val is None for val in bbox):
-        return None
-    return bbox
-
-
-BoundingBoxDep = Annotated[
-    Optional[tuple[float, float, float, float]], Depends(bounding_box)
+LocationQueryDep = Annotated[
+    Optional[LocationQuery], Depends(location_query_dependency)
 ]
 
 
