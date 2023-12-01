@@ -7,6 +7,8 @@ from flood_api.settings import settings
 from flood_api.tests.synthetic_data import gdf_test_threshold
 
 GLOFAS_ROI = settings.glofas_roi
+OUT_OF_BOUNDS_STATUS_CODE = settings.out_of_bounds_query_status_code
+INVALID_STATUS_CODE = settings.invalid_query_status_code
 
 app.dependency_overrides[get_threshold_data] = lambda: gdf_test_threshold
 
@@ -22,13 +24,11 @@ def get_threshold_response_code(params):
 
 
 def test_threshold_arg_validity():
-    expected_error_code = 404
-
     # Neither lat/lon nor bbox are provided
     params = {"include_neighbors": "true"}
     response = get_threshold_response(params)
 
-    assert response.status_code == expected_error_code
+    assert response.status_code == INVALID_STATUS_CODE
 
     # Both lat/lon and bbox are provided
     params = {
@@ -41,7 +41,7 @@ def test_threshold_arg_validity():
     }
     response = get_threshold_response(params)
 
-    assert response.status_code == expected_error_code
+    assert response.status_code == INVALID_STATUS_CODE
 
     # Incomplete bbox is provided
     params = {
@@ -51,7 +51,7 @@ def test_threshold_arg_validity():
     }
     response = get_threshold_response(params)
 
-    assert response.status_code == expected_error_code
+    assert response.status_code == INVALID_STATUS_CODE
 
     # Incomplete coordinates are provided
     params = {
@@ -59,7 +59,7 @@ def test_threshold_arg_validity():
     }
     response = get_threshold_response(params)
 
-    assert response.status_code == expected_error_code
+    assert response.status_code == INVALID_STATUS_CODE
 
     # One of the coordinates is zero
     params = {
@@ -88,27 +88,26 @@ def test_threshold_point_validity():
     min_lon = GLOFAS_ROI["min_lon"]
     max_lon = GLOFAS_ROI["max_lon"]
     eps = 1e-6
-    expected_error_code = 404
 
     # Queried latitude is outside the ROI
     params = {"lat": min_lat - eps, "lon": (min_lon + max_lon) / 2}
-    assert get_threshold_response_code(params) == expected_error_code
+    assert get_threshold_response_code(params) == OUT_OF_BOUNDS_STATUS_CODE
 
     # Queried latitude is outside the ROI
     # Being on the upper boundary implies
     # that the queried point is outside the ROI
     params = {"lat": max_lat, "lon": (min_lon + max_lon) / 2}
-    assert get_threshold_response_code(params) == expected_error_code
+    assert get_threshold_response_code(params) == OUT_OF_BOUNDS_STATUS_CODE
 
     # Queried longitude is outside the ROI
     params = {"lat": (min_lat + max_lat) / 2, "lon": min_lon - eps}
-    assert get_threshold_response_code(params) == expected_error_code
+    assert get_threshold_response_code(params) == OUT_OF_BOUNDS_STATUS_CODE
 
     # Queried longitude is outside the ROI
     # Being on the upper boundary implies
     # that the queried point is outside the ROI
     params = {"lat": (min_lat + max_lat) / 2, "lon": max_lon}
-    assert get_threshold_response_code(params) == expected_error_code
+    assert get_threshold_response_code(params) == OUT_OF_BOUNDS_STATUS_CODE
 
     # Queried point is within the ROI
     # Being on the lower boundary implies
@@ -129,7 +128,6 @@ def test_threshold_bbox_validity():
     min_lon = GLOFAS_ROI["min_lon"]
     max_lon = GLOFAS_ROI["max_lon"]
     eps = 1e-6
-    expected_error_code = 404
 
     # Queried maximum latitude is smaller than the minimum latitude
     params = {
@@ -138,7 +136,7 @@ def test_threshold_bbox_validity():
         "min_lon": 0.0,
         "max_lon": 10.0,
     }
-    assert get_threshold_response_code(params) == expected_error_code
+    assert get_threshold_response_code(params) == INVALID_STATUS_CODE
 
     # Queried maximum longitude is the same as the minimum longitude
     params = {
@@ -147,7 +145,7 @@ def test_threshold_bbox_validity():
         "min_lon": 4.0,
         "max_lon": 4.0,
     }
-    assert get_threshold_response_code(params) == expected_error_code
+    assert get_threshold_response_code(params) == INVALID_STATUS_CODE
 
     # Queried minimum latitude is outside the ROI
     params = {
@@ -156,7 +154,7 @@ def test_threshold_bbox_validity():
         "min_lon": (min_lon + max_lon) / 4,
         "max_lon": (min_lon + max_lon) / 2,
     }
-    assert get_threshold_response_code(params) == expected_error_code
+    assert get_threshold_response_code(params) == OUT_OF_BOUNDS_STATUS_CODE
 
     # Queried maximum latitude is outside the ROI
     params = {
@@ -165,7 +163,7 @@ def test_threshold_bbox_validity():
         "min_lon": (min_lon + max_lon) / 4,
         "max_lon": (min_lon + max_lon) / 2,
     }
-    assert get_threshold_response_code(params) == expected_error_code
+    assert get_threshold_response_code(params) == OUT_OF_BOUNDS_STATUS_CODE
 
     # Queried minimum longitude is outside the ROI
     params = {
@@ -174,7 +172,7 @@ def test_threshold_bbox_validity():
         "min_lon": min_lon - eps,
         "max_lon": (min_lon + max_lon) / 2,
     }
-    assert get_threshold_response_code(params) == expected_error_code
+    assert get_threshold_response_code(params) == OUT_OF_BOUNDS_STATUS_CODE
 
     # Queried maximum longitude is outside the ROI
     params = {
@@ -183,7 +181,7 @@ def test_threshold_bbox_validity():
         "min_lon": (min_lon + max_lon) / 2,
         "max_lon": max_lon + eps,
     }
-    assert get_threshold_response_code(params) == expected_error_code
+    assert get_threshold_response_code(params) == OUT_OF_BOUNDS_STATUS_CODE
 
     # Queried minimum latitude is inside the ROI
     params = {

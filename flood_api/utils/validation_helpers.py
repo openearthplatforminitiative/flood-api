@@ -5,7 +5,8 @@ from fastapi import HTTPException
 from flood_api.settings import settings
 
 GLOFAS_ROI = settings.glofas_roi
-INVALID_STATUS_CODE = 404
+OUT_OF_BOUNDS_STATUS_CODE = settings.out_of_bounds_query_status_code
+INVALID_STATUS_CODE = settings.invalid_query_status_code
 
 
 def validate_coordinates(latitude: float, longitude: float) -> None:
@@ -27,7 +28,7 @@ def validate_coordinates(latitude: float, longitude: float) -> None:
 
     if not point_within_roi:
         raise HTTPException(
-            status_code=INVALID_STATUS_CODE,
+            status_code=OUT_OF_BOUNDS_STATUS_CODE,
             detail="Queried coordinates are outside the region of interest",
         )
 
@@ -39,8 +40,10 @@ def validate_bounding_box(
     max_lon: float,
 ) -> None:
     """
-    Check if the given bounding box is within the region of interest (ROI).
-    If not, raise an HTTPException with status code 404.
+    Check if the given bounding box is valid (i.e. min < max) and within the
+    the region of interest (ROI). If the bounding box is invalid, raise an
+    HTTPException with status code 400. If the bounding box is outside the ROI,
+    raise an HTTPException with status code 404.
 
     Parameters:
     - min_lat (float): The minimum latitude of the bounding box.
@@ -66,7 +69,7 @@ def validate_bounding_box(
 
     if not bounding_box_within_roi:
         raise HTTPException(
-            status_code=INVALID_STATUS_CODE,
+            status_code=OUT_OF_BOUNDS_STATUS_CODE,
             detail="Queried bounding box is not within the region of interest",
         )
 
@@ -89,37 +92,3 @@ def validate_dates(start_date: date, end_date: date) -> None:
         raise HTTPException(
             status_code=INVALID_STATUS_CODE, detail="Invalid date range"
         )
-
-
-def validate_generic_inputs(*args: tuple, possible_inputs_str: str) -> None:
-    """
-    Check if exaclty one of the given inputs is valid, i.e. not None.
-    If not, raise an HTTPException with status code 404.
-
-    Parameters:
-    - args (tuple): The inputs to check.
-    - possible_inputs_str (str): A string listing the possible inputs.
-
-    Returns:
-    None
-    """
-    valid_inputs_count = sum(map(bool, args))
-
-    # Determine the appropriate error message
-    if valid_inputs_count == 0:
-        error_message = (
-            "One of the following inputs must be provided: " + possible_inputs_str
-        )
-    elif valid_inputs_count > 1:
-        error_message = (
-            "Only one of the following inputs can be provided: " + possible_inputs_str
-        )
-    else:
-        # If there is exactly one valid input, return without raising an exception
-        return
-
-    # Raise an HTTPException with the determined error message
-    raise HTTPException(
-        status_code=INVALID_STATUS_CODE,
-        detail=error_message,
-    )
