@@ -10,8 +10,8 @@ from flood_api.settings import settings
 from flood_api.tests.synthetic_data import gdf_test_detailed
 
 GLOFAS_ROI = settings.glofas_roi
-OUT_OF_BOUNDS_STATUS_CODE = settings.out_of_bounds_query_status_code
-INVALID_STATUS_CODE = settings.invalid_query_status_code
+OUT_OF_BOUNDS_STATUS_CODE = 404
+INVALID_STATUS_CODE = 400
 
 TOTAL_STEPS = 30
 

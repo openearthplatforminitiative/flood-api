@@ -20,8 +20,6 @@ class Settings(BaseSettings):
     }
     glofas_resolution: float = 0.05
     glofas_precision: int = 3
-    out_of_bounds_query_status_code: int = 404
-    invalid_query_status_code: int = 400
 
 
 settings = Settings()

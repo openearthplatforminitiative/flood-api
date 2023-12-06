@@ -1,6 +1,6 @@
 from datetime import date
 from enum import Enum
-from typing import List, Optional
+from typing import List
 
 from pydantic import BaseModel, Field, field_validator
 
@@ -161,7 +161,7 @@ class SummaryResponseModel(BaseModel):
         ...,
         description="A feature collection representing the queried location's summary forecast data.",
     )
-    neighboring_location: Optional[SummaryFeatureCollection] = Field(
+    neighboring_location: SummaryFeatureCollection | None = Field(
         default=None,
         description="A feature collection representing the neighboring location's summary forecast data, potentially empty if there is no neighboring forecast data.",
     )

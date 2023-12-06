@@ -21,7 +21,7 @@ def custom_date_handler(obj: object) -> str:
 
 
 def dataframe_to_geojson(
-    df: gpd.GeoDataFrame, columns: list[str], sort_columns: list[str] = None
+    df: gpd.GeoDataFrame, columns: list[str], sort_columns: list[str] | None = None
 ) -> dict:
     """
     Convert a GeoDataFrame to a GeoJSON.

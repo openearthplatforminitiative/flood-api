@@ -1,5 +1,5 @@
 from datetime import date
-from typing import List, Optional
+from typing import List
 
 from pydantic import BaseModel, Field
 
@@ -92,7 +92,7 @@ class DetailedResponseModel(BaseModel):
         ...,
         description="A feature collection representing the queried location's detailed forecast data.",
     )
-    neighboring_location: Optional[DetailedFeatureCollection] = Field(
+    neighboring_location: DetailedFeatureCollection | None = Field(
         default=None,
         description="A feature collection representing the neighboring location's detailed forecast data, potentially empty if there is no neighboring forecast data.",
     )

@@ -109,8 +109,8 @@ def create_polygon_from_bounds(
 def get_data_for_roi(
     roi: Polygon,
     gdf: gpd.GeoDataFrame,
-    date_range: tuple[date, date] = None,
-    expanded_roi: Polygon = None,
+    date_range: tuple[date, date] | None = None,
+    expanded_roi: Polygon | None = None,
 ) -> tuple[gpd.GeoDataFrame, gpd.GeoDataFrame]:
     """
     Given a region of interest, return the data for the grid cells
@@ -162,7 +162,7 @@ def get_data_for_point(
     longitude: float,
     gdf: gpd.GeoDataFrame,
     include_neighbors: bool = False,
-    date_range: tuple[date, date] = None,
+    date_range: tuple[date, date] | None = None,
 ) -> tuple[gpd.GeoDataFrame, gpd.GeoDataFrame]:
     """
     Given a latitude and longitude, return the data for the grid cell
@@ -223,7 +223,7 @@ def get_data_for_point(
 def get_data_for_bbox(
     bbox: tuple[float, float, float, float],
     gdf: gpd.GeoDataFrame,
-    date_range: tuple[date, date] = None,
+    date_range: tuple[date, date] | None = None,
 ) -> gpd.GeoDataFrame:
     """
     Given a bounding box, return the data for the grid cells

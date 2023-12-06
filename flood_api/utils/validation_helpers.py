@@ -5,8 +5,6 @@ from fastapi import HTTPException
 from flood_api.settings import settings
 
 GLOFAS_ROI = settings.glofas_roi
-OUT_OF_BOUNDS_STATUS_CODE = settings.out_of_bounds_query_status_code
-INVALID_STATUS_CODE = settings.invalid_query_status_code
 
 
 def validate_coordinates(latitude: float, longitude: float) -> None:
@@ -28,7 +26,7 @@ def validate_coordinates(latitude: float, longitude: float) -> None:
 
     if not point_within_roi:
         raise HTTPException(
-            status_code=OUT_OF_BOUNDS_STATUS_CODE,
+            status_code=404,
             detail="Queried coordinates are outside the region of interest",
         )
 
@@ -58,7 +56,7 @@ def validate_bounding_box(
 
     if not bounding_box_is_valid:
         raise HTTPException(
-            status_code=INVALID_STATUS_CODE,
+            status_code=400,
             detail="Invalid bounding box",
         )
 
@@ -69,7 +67,7 @@ def validate_bounding_box(
 
     if not bounding_box_within_roi:
         raise HTTPException(
-            status_code=OUT_OF_BOUNDS_STATUS_CODE,
+            status_code=404,
             detail="Queried bounding box is not within the region of interest",
         )
 
@@ -89,6 +87,4 @@ def validate_dates(start_date: date, end_date: date) -> None:
     date_range_is_valid = start_date <= end_date
 
     if not date_range_is_valid:
-        raise HTTPException(
-            status_code=INVALID_STATUS_CODE, detail="Invalid date range"
-        )
+        raise HTTPException(status_code=400, detail="Invalid date range")
