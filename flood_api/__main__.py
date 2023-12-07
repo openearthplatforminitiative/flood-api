@@ -1,10 +1,13 @@
 import asyncio
 import logging
+import pathlib
 from contextlib import asynccontextmanager
 
 from fastapi import FastAPI
+from fastapi.openapi.docs import get_redoc_html
 
 from flood_api.dependencies.flooddata import fetch_flood_data, flood_data_fetcher
+from flood_api.openapi import openapi
 from flood_api.routers import flood, healthcheck
 from flood_api.settings import settings
 
@@ -22,11 +25,26 @@ app = FastAPI(
     version=settings.version,
     description=settings.api_description,
     root_path=settings.api_root_path,
+    redoc_url=None,
 )
 app.include_router(flood.router)
 app.include_router(healthcheck.router)
 
 logging.basicConfig(level=logging.INFO)
+
+
+example_code_dir = pathlib.Path(__file__).parent / "example_code"
+app.openapi_schema = openapi.custom_openapi(app, example_code_dir)
+
+
+@app.get("/redoc", include_in_schema=False)
+def redoc():
+    return get_redoc_html(
+        openapi_url="/openapi.json",
+        title="Geocoder API",
+        redoc_favicon_url="https://www.openepi.io/favicon.ico",
+    )
+
 
 if __name__ == "__main__":
     import uvicorn
