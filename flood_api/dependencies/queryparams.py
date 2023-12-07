@@ -1,23 +1,51 @@
 from datetime import date
 from typing import Annotated
 
-from fastapi import Depends, Query
+from fastapi import Depends, HTTPException, Query
+
+from flood_api.utils.validation_helpers import (
+    validate_bounding_box,
+    validate_coordinates,
+    validate_dates,
+)
+
+# Define a union type for the dependency
+LocationQuery = tuple[float, float] | tuple[float, float, float, float]
 
 
-def coordinates(
-    lon: Annotated[
-        float,
-        Query(description="Longitude of the coordinate to retrieve data for"),
-    ],
-    lat: Annotated[
-        float,
-        Query(description="Latitude of the coordinate to retrieve data for"),
-    ],
-) -> (float, float):
-    return lon, lat
+def location_query_dependency(
+    lon: Annotated[float | None, Query(description="Longitude")] = None,
+    lat: Annotated[float | None, Query(description="Latitude")] = None,
+    min_lon: Annotated[float | None, Query(description="Minimum longitude")] = None,
+    max_lon: Annotated[float | None, Query(description="Maximum longitude")] = None,
+    min_lat: Annotated[float | None, Query(description="Minimum latitude")] = None,
+    max_lat: Annotated[float | None, Query(description="Maximum latitude")] = None,
+) -> LocationQuery:
+    coordinates = (lat, lon)
+    bbox = (min_lat, max_lat, min_lon, max_lon)
+    if None in coordinates:
+        coordinates = None
+    if None in bbox:
+        bbox = None
+    if not (coordinates or bbox):
+        raise HTTPException(
+            status_code=400,
+            detail="Either coordinates or bounding box must be provided.",
+        )
+    if coordinates and bbox:
+        raise HTTPException(
+            status_code=400,
+            detail="Only coordinates or bounding box can be provided, not both.",
+        )
+    if coordinates:
+        validate_coordinates(*coordinates)
+        return coordinates
+    else:  # bbox is not None
+        validate_bounding_box(*bbox)
+        return bbox
 
 
-CoordinatesDep = Annotated[tuple[float, float], Depends(coordinates)]
+LocationQueryDep = Annotated[LocationQuery, Depends(location_query_dependency)]
 
 
 def include_neighbors(
@@ -54,6 +82,7 @@ def date_range(
         start_date = date.min
     if end_date is None:
         end_date = date.max
+    validate_dates(start_date, end_date)
     return start_date, end_date
 
 
