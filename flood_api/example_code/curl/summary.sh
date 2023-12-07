@@ -1,4 +1,4 @@
-# Get the summary flood forecast for the given coordinates with neighboring cells
+# Get the summary flood forecast for the given coordinates and neighboring cells
 curl -i -X GET $api_url$api_path?lon=22.260536&lat=4.882569&include_neighbors=true
 
 # Get the summary flood forecast for the given bounding box without neighboring cells

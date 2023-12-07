@@ -1,7 +1,7 @@
 from httpx import Client
 
 with Client() as client:
-    # Get the detailed flood forecast for the given coordinates with neighboring cells, between 2023-12-01 and 2023-12-07 (inclusive)
+    # Get the detailed flood forecast for the given coordinates and neighboring cells, between 2023-12-01 and 2023-12-07 (inclusive)
     response_loc = client.get(
         url="$api_url$api_path",
         params={

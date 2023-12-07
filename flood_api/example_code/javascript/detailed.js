@@ -1,4 +1,4 @@
-// Get the detailed flood forecast for the given coordinates with neighboring cells, between 2023-12-01 and 2023-12-07 (inclusive)
+// Get the detailed flood forecast for the given coordinates and neighboring cells, between 2023-12-01 and 2023-12-07 (inclusive)
 const response_loc = await fetch(
     "$api_url$api_path?" + new URLSearchParams({
           lon: "22.260536", 

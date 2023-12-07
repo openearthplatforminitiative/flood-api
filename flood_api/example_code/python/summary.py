@@ -1,7 +1,7 @@
 from httpx import Client
 
 with Client() as client:
-    # Get the summary flood forecast for the given coordinates with neighboring cells
+    # Get the summary flood forecast for the given coordinates and neighboring cells
     response_loc = client.get(
         url="$api_url$api_path",
         params={"lon": 22.260536, "lat": 4.882569, "include_neighbors": "true"},

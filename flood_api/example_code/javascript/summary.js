@@ -1,4 +1,4 @@
-// Get the summary flood forecast for the given coordinates with neighboring cells
+// Get the summary flood forecast for the given coordinates and neighboring cells
 const response_loc = await fetch(
     "$api_url$api_path?" + new URLSearchParams({
           lon: "22.260536", 
