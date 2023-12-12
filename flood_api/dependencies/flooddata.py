@@ -16,31 +16,35 @@ from flood_api.settings import settings
 logger = logging.getLogger(__name__)
 
 
-def fetch_parquet(path) -> gpd.GeoDataFrame:
-    logger.info("Reloading data from %s", path)
+def fetch_parquet(path) -> gpd.GeoDataFrame | None:
+    try:
+        logger.info("Reloading data from %s", path)
 
-    df = pd.read_parquet(
-        path,
-        engine="fastparquet",
-        storage_options={"anon": True},
-    )
+        df = pd.read_parquet(
+            path,
+            engine="fastparquet",
+            storage_options={"anon": True},
+        )
 
-    # Convert date fields to date objects
-    date_fields = set(
-        DetailedProperties.get_date_fields() + SummaryProperties.get_date_fields()
-    )
-    for col in date_fields:
-        if col in df.columns and isinstance(df[col].iloc[0], pd.Timestamp):
-            df[col] = pd.to_datetime(df[col]).dt.date
+        # Convert date fields to date objects
+        date_fields = set(
+            DetailedProperties.get_date_fields() + SummaryProperties.get_date_fields()
+        )
+        for col in date_fields:
+            if col in df.columns and isinstance(df[col].iloc[0], pd.Timestamp):
+                df[col] = pd.to_datetime(df[col]).dt.date
 
-    # Convert WKT strings to geometry objects
-    df["geometry"] = df["wkt"].apply(wkt.loads)
+        # Convert WKT strings to geometry objects
+        df["geometry"] = df["wkt"].apply(wkt.loads)
 
-    gdf = gpd.GeoDataFrame(df, geometry="geometry").drop(columns="wkt")
+        gdf = gpd.GeoDataFrame(df, geometry="geometry").drop(columns="wkt")
 
-    logger.info("Done reloading data from %s", path)
+        logger.info("Done reloading data from %s", path)
 
-    return gdf
+        return gdf
+    except Exception as e:
+        logger.error(e)
+        return None
 
 
 def get_summary_data(request: Request) -> gpd.GeoDataFrame | None:
@@ -71,12 +75,19 @@ async def flood_data_fetcher(app: FastAPI):
 async def fetch_flood_data(app: FastAPI):
     loop = asyncio.get_event_loop()
     (
-        app.summary_data,
-        app.detailed_data,
-        app.threshold_data,
+        summary_data,
+        detailed_data,
+        threshold_data,
     ) = await asyncio.gather(
         # loop.run_in_executor to prevents blocking the main thread
         loop.run_in_executor(None, fetch_parquet, settings.summary_data_path),
         loop.run_in_executor(None, fetch_parquet, settings.detailed_data_path),
         loop.run_in_executor(None, fetch_parquet, settings.threshold_data_path),
     )
+
+    if summary_data is not None:
+        app.summary_data = summary_data
+    if detailed_data is not None:
+        app.detailed_data = detailed_data
+    if threshold_data is not None:
+        app.threshold_data = threshold_data
