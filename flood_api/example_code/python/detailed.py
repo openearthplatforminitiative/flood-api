@@ -3,7 +3,7 @@ from httpx import Client
 with Client() as client:
     # Get the detailed flood forecast for the given coordinates and neighboring cells, between 2023-12-01 and 2023-12-07 (inclusive)
     response_loc = client.get(
-        url="$api_url$api_path",
+        url="$endpoint_url",
         params={
             "lon": 22.260536,
             "lat": 4.882569,
@@ -20,7 +20,7 @@ with Client() as client:
 
     # Get the detailed flood forecast for the given bounding box without neighboring cells, covering the entire forecast duration
     response_bbox = client.get(
-        url="$api_url$api_path",
+        url="$endpoint_url",
         params={
             "min_lon": 22.0,
             "max_lon": 23.05,

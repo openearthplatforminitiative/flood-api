@@ -3,7 +3,7 @@ from httpx import Client
 with Client() as client:
     # Get the return period thresholds for the given coordinates
     response_loc = client.get(
-        url="$api_url$api_path", params={"lon": 22.260536, "lat": 4.882569}
+        url="$endpoint_url", params={"lon": 22.260536, "lat": 4.882569}
     )
 
     data_loc = response_loc.json()
@@ -13,7 +13,7 @@ with Client() as client:
 
     # Get the return period thresholds for the given bounding box
     response_bbox = client.get(
-        url="$api_url$api_path",
+        url="$endpoint_url",
         params={
             "min_lon": 22.0,
             "max_lon": 23.05,

@@ -20,10 +20,7 @@ async def lifespan(flood_app: FastAPI):
 
 
 app = FastAPI(
-    title="Flood API",
     lifespan=lifespan,
-    version=settings.version,
-    description=settings.api_description,
     root_path=settings.api_root_path,
     redoc_url=None,
 )
@@ -41,7 +38,7 @@ app.openapi_schema = openapi.custom_openapi(app, example_code_dir)
 def redoc():
     return get_redoc_html(
         openapi_url="/openapi.json",
-        title="Geocoder API",
+        title="Flood API",
         redoc_favicon_url="https://www.openepi.io/favicon.ico",
     )
 

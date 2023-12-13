@@ -1,6 +1,6 @@
 // Get the return period thresholds for the given coordinates
 const response_loc = await fetch(
-    "$api_url$api_path?" + new URLSearchParams({
+    "$endpoint_url?" + new URLSearchParams({
           lon: "22.260536", 
           lat: "4.882569"
     })
@@ -12,7 +12,7 @@ const response_loc = await fetch(
 
 // Get the return period thresholds for the given bounding box
 const response_bbox = await fetch(
-    "$api_url$api_path?" + new URLSearchParams({
+    "$endpoint_url?" + new URLSearchParams({
           min_lon: "22.0", 
           max_lon: "23.05", 
           min_lat: "4.764412", 

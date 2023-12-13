@@ -17,14 +17,14 @@ def custom_openapi(app: FastAPI, example_code_dir: Path):
         return app.openapi_schema
 
     openapi_schema = get_openapi(
-        title="Geocoder API",
+        title="Flood API",
         version=settings.version,
         description=settings.api_description,
         routes=app.routes,
     )
 
     openapi_schema["info"]["x-logo"] = {
-        "url": "https://api-test.openepi.io/assets/icons/open-epi-logo.svg"
+        "url": f"https://{settings.api_domain}/assets/icons/open-epi-logo.svg"
     }
 
     api_routes = [route for route in app.routes if isinstance(route, APIRoute)]
@@ -42,8 +42,7 @@ def custom_openapi(app: FastAPI, example_code_dir: Path):
                         {
                             "lang": lang,
                             "source": code_template.safe_substitute(
-                                api_url=f"{settings.api_url}",
-                                api_path=route.path,
+                                endpoint_url=f"{settings.api_url}{route.path}",
                             ),
                         }
                     )
