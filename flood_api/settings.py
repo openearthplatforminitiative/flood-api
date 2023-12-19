@@ -20,6 +20,14 @@ class Settings(BaseSettings):
     }
     glofas_resolution: float = 0.05
     glofas_precision: int = 3
+    api_domain: str = "localhost"
+
+    @property
+    def api_url(self):
+        if self.api_domain == "localhost":
+            return f"http://{self.api_domain}:{self.uvicorn_port}"
+        else:
+            return f"https://{self.api_domain}{self.api_root_path}"
 
 
 settings = Settings()
