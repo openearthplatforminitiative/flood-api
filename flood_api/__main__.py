@@ -1,4 +1,3 @@
-import asyncio
 import logging
 import pathlib
 from contextlib import asynccontextmanager
@@ -6,7 +5,7 @@ from contextlib import asynccontextmanager
 from fastapi import FastAPI
 from fastapi.openapi.docs import get_redoc_html
 
-from flood_api.dependencies.flooddata import fetch_flood_data, flood_data_fetcher
+from flood_api.dependencies.flooddata import fetch_flood_data
 from flood_api.openapi import openapi
 from flood_api.routers import flood, healthcheck
 from flood_api.settings import settings
@@ -15,7 +14,6 @@ from flood_api.settings import settings
 @asynccontextmanager
 async def lifespan(flood_app: FastAPI):
     await fetch_flood_data(flood_app)
-    asyncio.create_task(flood_data_fetcher(flood_app))
     yield
 
 
