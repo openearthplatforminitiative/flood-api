@@ -1,0 +1,58 @@
+# Service account the CronJob will use to reset the deployment
+kind: ServiceAccount
+apiVersion: v1
+metadata:
+  name: flood-api-deployment-restart
+  namespace: apps
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: flood-api-deployment-restart
+  namespace: apps
+rules:
+  - apiGroups: ["apps", "extensions"]
+    resources: ["deployments"]
+    resourceNames: ["flood-api"]
+    verbs: ["get", "patch", "list", "watch"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: deployment-restart
+  namespace: apps
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: flood-api-deployment-restart
+subjects:
+  - kind: ServiceAccount
+    name: flood-api-deployment-restart
+    namespace: apps
+---
+# CronJob that periodically restarts the deployment
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: flood-api-deployment-restart
+  namespace: apps
+spec:
+  concurrencyPolicy: Forbid
+  schedule: '0 12 * * *'
+  jobTemplate:
+    spec:
+      backoffLimit: 2
+      activeDeadlineSeconds: 600
+      template:
+        spec:
+          serviceAccountName: flood-api-deployment-restart
+          restartPolicy: Never
+          containers:
+            - name: kubectl
+              image: bitnami/kubectl
+              command:
+                - bash
+                - -c
+                - >-
+                  kubectl rollout restart deployment/flood-api &&
+                  kubectl rollout status deployment/flood-api
