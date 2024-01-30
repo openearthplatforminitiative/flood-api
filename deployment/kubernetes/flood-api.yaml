@@ -39,24 +39,31 @@ spec:
       targetPort: 8080
   selector:
     app: flood-api
+
 ---
-apiVersion: apisix.apache.org/v2
-kind: ApisixRoute
+apiVersion: traefik.io/v1alpha1
+kind: Middleware
+metadata:
+  name: stripprefix-flood
+spec:
+  stripPrefix:
+    prefixes:
+      - /flood
+    forceSlash: true
+---
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
 metadata:
   name: flood-api
 spec:
-  http:
-    - name: flood-api
-      match:
-        paths:
-          - /flood/*
-      backends:
-        - serviceName: flood-api
-          servicePort: 80
-      plugins:
-        - name: proxy-rewrite
-          enable: true
-          config:
-            regex_uri:
-              - "^/flood/(.*)"
-              - "/$1"
+  entryPoints:
+    - web
+  routes:
+  - kind: Rule
+    match: PathPrefix(`/flood`)
+    services:
+    - kind: Service
+      name: flood-api
+      port: 80
+    middlewares:
+    - name: stripprefix-flood
