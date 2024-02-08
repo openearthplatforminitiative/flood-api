@@ -21,11 +21,11 @@ class Settings(BaseSettings):
         "This is a RESTful service that provides accurate and up-to-date "
         "flood information for the geographic region bounded by the following "
         "coordinates: `min_lon=-18.0`, `min_lat=-6.0`, `max_lon=52.0`, `max_lat=17.0`."
-        '<br/>The data are produced for the <a href="https://www.globalfloods.eu/">Global '
+        "<br/>The data are produced for the <a href='https://www.globalfloods.eu/'>Global "
         "Flood Awareness System</a> and sourced from the "
-        '<a href="https://cds.climate.copernicus.eu/cdsapp#!/dataset/cems-glofas-forecast?tab=overview">'
+        "<a href='https://cds.climate.copernicus.eu/cdsapp#!/dataset/cems-glofas-forecast?tab=overview'>"
         "Copernicus Climate Data Store</a>. <br/>Please note that the datasets are licensed "
-        'the <a href="https://www.globalfloods.eu/terms-of-service/">CEMS-FLOODS datasets licence</a>, '
+        "the <a href='https://www.globalfloods.eu/terms-of-service/'>CEMS-FLOODS datasets licence</a>, "
         "which is not a standard open license. We use it in our pre-project to explore relevant data."
     )
     glofas_roi: dict = {
