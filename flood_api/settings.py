@@ -18,9 +18,9 @@ class Settings(BaseSettings):
         "<br/>The data are produced for the <a href='https://www.globalfloods.eu/'>Global "
         "Flood Awareness System</a> and sourced from the "
         "<a href='https://cds.climate.copernicus.eu/cdsapp#!/dataset/cems-glofas-forecast?tab=overview'>"
-        "Copernicus Climate Data Store</a>. <br/>Please note that the datasets are licensed "
+        "Copernicus Climate Data Store</a>. <br/>Please note that the datasets are licensed under "
         "the <a href='https://www.globalfloods.eu/terms-of-service/'>CEMS-FLOODS datasets licence</a>, "
-        "which is not a standard open license. We use it in our pre-project to explore relevant data."
+        "which is not a standard open license. We use them in our pre-project to explore relevant data."
     )
     glofas_roi: dict = {
         "min_lat": -6.0,
