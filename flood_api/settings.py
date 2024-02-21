@@ -11,7 +11,17 @@ class Settings(BaseSettings):
     summary_data_path: str = "s3://databricks-data-openepi/glofas/processed/newest/processed_summary_forecast.parquet/"
     threshold_data_path: str = "s3://databricks-data-openepi/glofas/auxiliary-data/processed_thresholds.parquet/"
     api_root_path: str = ""
-    api_description: str = 'This is a RESTful service that provides accurate and up-to-date flood information for the geographic region bounded by the following coordinates: `min_lon=-18.0`, `min_lat=-6.0`, `max_lon=52.0`, `max_lat=17.0`. <br/>The data are produced for the <a href="https://www.globalfloods.eu/">Global Flood Awareness System</a> and sourced from the <a href="https://cds.climate.copernicus.eu/cdsapp#!/dataset/cems-glofas-forecast?tab=overview">Copernicus Climate Data Store</a>. <br/>The data are freely available for use under the <a href="https://cds.climate.copernicus.eu/api/v2/terms/static/cems-floods.pdf">CEMS-FLOODS datasets licence</a>.'
+    api_description: str = (
+        "This is a RESTful service that provides accurate and up-to-date "
+        "flood information for the geographic region bounded by the following "
+        "coordinates: `min_lon=-18.0`, `min_lat=-6.0`, `max_lon=52.0`, `max_lat=17.0`."
+        "<br/>The data are produced for the <a href='https://www.globalfloods.eu/'>Global "
+        "Flood Awareness System</a> and sourced from the "
+        "<a href='https://cds.climate.copernicus.eu/cdsapp#!/dataset/cems-glofas-forecast?tab=overview'>"
+        "Copernicus Climate Data Store</a>. <br/>Please note that the datasets are licensed under "
+        "the <a href='https://www.globalfloods.eu/terms-of-service/'>CEMS-FLOODS datasets licence</a>, "
+        "which is not a standard open license. We use them in our pre-project to explore relevant data."
+    )
     glofas_roi: dict = {
         "min_lat": -6.0,
         "max_lat": 17.0,
