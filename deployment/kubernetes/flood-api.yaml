@@ -57,6 +57,7 @@ metadata:
   name: flood-api
 spec:
   entryPoints:
+    - websecure
     - web
   routes:
   - kind: Rule
