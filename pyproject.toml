@@ -8,7 +8,6 @@ readme = "README.md"
 
 [tool.poetry.dependencies]
 python = "~3.11"
-fastapi = "^0.104.0"
 uvicorn = "^0.23.2"
 pydantic = "^2.4.2"
 pydantic-settings = "^2.0.3"
@@ -21,6 +20,8 @@ shapely = "^2.0.2"
 asyncio = "^3.4.3"
 aiocron = "^1.8"
 fastparquet = "^2023.10.1"
+fastapi = "^0.110.1"
+prometheus-fastapi-instrumentator = "^7.0.0"
 
 [tool.poetry.group.dev.dependencies]
 black = "^23.9.1"
