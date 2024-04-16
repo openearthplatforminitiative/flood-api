@@ -4,6 +4,7 @@ from contextlib import asynccontextmanager
 
 from fastapi import FastAPI
 from fastapi.openapi.docs import get_redoc_html
+from prometheus_fastapi_instrumentator import Instrumentator
 
 from flood_api.dependencies.flooddata import fetch_flood_data
 from flood_api.openapi import openapi
@@ -30,6 +31,7 @@ logging.basicConfig(level=logging.INFO)
 
 example_code_dir = pathlib.Path(__file__).parent / "example_code"
 app.openapi_schema = openapi.custom_openapi(app, example_code_dir)
+Instrumentator().instrument(app).expose(app)
 
 
 @app.get("/redoc", include_in_schema=False)
