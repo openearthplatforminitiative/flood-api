@@ -1,4 +1,5 @@
 from pydantic_settings import BaseSettings
+from os import environ
 
 
 class Settings(BaseSettings):
@@ -7,10 +8,10 @@ class Settings(BaseSettings):
     uvicorn_host: str = "0.0.0.0"
     uvicorn_reload: bool = True
     uvicorn_proxy_headers: bool = False
-    dagster_data_bucket: str = "databricks-data-openepi"
+    dagster_data_bucket: str = environ.get("dagster_data_bucket")
     detailed_data_path: str = f"s3://{dagster_data_bucket}/glofas/processed/newest/processed_detailed_forecast.parquet/"
     summary_data_path: str = f"s3://{dagster_data_bucket}/glofas/processed/newest/processed_summary_forecast.parquet/"
-    threshold_data_path: str = "s3://databricks-data-openepi/glofas/auxiliary-data/processed_thresholds.parquet/"
+    threshold_data_path: str = f"s3://{dagster_data_bucket}/glofas/auxiliary-data/processed_thresholds.parquet/"
     api_root_path: str = ""
     api_description: str = (
         "This is a RESTful service that provides accurate and up-to-date "
