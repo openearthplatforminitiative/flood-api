@@ -11,7 +11,9 @@ class Settings(BaseSettings):
     dagster_data_bucket: str = environ.get("dagster_data_bucket")
     detailed_data_path: str = f"s3://{dagster_data_bucket}/detailed_forecast.parquet/"
     summary_data_path: str = f"s3://{dagster_data_bucket}/summary_forecast.parquet/"
-    threshold_data_path: str = f"s3://{dagster_data_bucket}/rp_combined_thresh_pq.parquet/"
+    threshold_data_path: str = (
+        f"s3://{dagster_data_bucket}/rp_combined_thresh_pq.parquet/"
+    )
     api_root_path: str = ""
     api_description: str = (
         "This is a RESTful service that provides accurate and up-to-date "
