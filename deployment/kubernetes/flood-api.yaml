@@ -32,6 +32,11 @@ spec:
                 configMapKeyRef:
                   name: openepi-apps-config
                   key: api_domain
+            - name: dagster_data_bucket
+              valueFrom:
+                configMapKeyRef:
+                  name: dagster-data-config
+                  key: dagster_data_bucket
 ---
 apiVersion: v1
 kind: Service
