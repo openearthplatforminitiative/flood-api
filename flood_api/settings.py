@@ -9,8 +9,12 @@ class Settings(BaseSettings):
     uvicorn_reload: bool = True
     uvicorn_proxy_headers: bool = False
     dagster_data_bucket: str = environ.get("dagster_data_bucket", "placeholder-bucket")
-    detailed_data_path: str = f"s3://{dagster_data_bucket}/flood/detailed_forecast.parquet/"
-    summary_data_path: str = f"s3://{dagster_data_bucket}/flood/summary_forecast.parquet/"
+    detailed_data_path: str = (
+        f"s3://{dagster_data_bucket}/flood/detailed_forecast.parquet/"
+    )
+    summary_data_path: str = (
+        f"s3://{dagster_data_bucket}/flood/summary_forecast.parquet/"
+    )
     threshold_data_path: str = (
         f"s3://{dagster_data_bucket}/flood/rp_combined_thresh_pq.parquet"
     )
