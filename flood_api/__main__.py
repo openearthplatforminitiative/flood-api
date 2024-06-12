@@ -4,6 +4,7 @@ from contextlib import asynccontextmanager
 
 from fastapi import FastAPI
 from fastapi.openapi.docs import get_redoc_html
+from fastapi.staticfiles import StaticFiles
 from prometheus_fastapi_instrumentator import Instrumentator
 
 from flood_api.dependencies.flooddata import fetch_flood_data
@@ -25,6 +26,9 @@ app = FastAPI(
 )
 app.include_router(flood.router)
 app.include_router(healthcheck.router)
+
+# The OpenEPI logo needs to be served as a static file since it is referenced in the OpenAPI schema
+app.mount("/static", StaticFiles(directory="assets/"), name="static")
 
 logging.basicConfig(level=logging.INFO)
 
