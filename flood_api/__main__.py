@@ -29,7 +29,7 @@ app.include_router(healthcheck.router)
 
 # The OpenEPI logo needs to be served as a static file since it is referenced in the OpenAPI schema
 app.mount(
-    f"/{settings.api_root_path}/static",
+    f"{settings.api_root_path}/static",
     StaticFiles(directory="flood_api/assets"),
     name="static",
 )
