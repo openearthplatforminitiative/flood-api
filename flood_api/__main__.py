@@ -21,7 +21,7 @@ async def lifespan(flood_app: FastAPI):
 
 app = FastAPI(
     lifespan=lifespan,
-    root_path=settings.api_root_path,
+    # root_path=settings.api_root_path,
     redoc_url=None,
 )
 app.include_router(flood.router)
@@ -29,7 +29,7 @@ app.include_router(healthcheck.router)
 
 # The OpenEPI logo needs to be served as a static file since it is referenced in the OpenAPI schema
 app.mount(
-    f"{settings.api_root_path}/static",
+    f"/static",
     StaticFiles(directory="flood_api/assets"),
     name="static",
 )
