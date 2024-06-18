@@ -47,7 +47,7 @@ class DetailedProperties(BaseModelWithDates):
         description="Minimum forecasted discharge in m^3/s.",
         json_schema_extra={"example": 16.2890625},
     )
-    Q1_dis: float = Field(
+    q1_dis: float = Field(
         ...,
         ge=0.0,
         description="First quartile of forecasted discharge in m^3/s.",
@@ -59,7 +59,7 @@ class DetailedProperties(BaseModelWithDates):
         description="Median forecasted discharge in m^3/s.",
         json_schema_extra={"example": 24.87109375},
     )
-    Q3_dis: float = Field(
+    q3_dis: float = Field(
         ...,
         ge=0.0,
         description="Third quartile of forecasted discharge in m^3/s.",
