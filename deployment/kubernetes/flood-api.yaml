@@ -18,7 +18,7 @@ spec:
         prometheus.io/path: "/metrics"
     spec:
       containers:
-        - image: ghcr.io/openearthplatforminitiative/flood-api:0.9.8
+        - image: ghcr.io/openearthplatforminitiative/flood-api:0.9.9
           name: flood-api
           ports:
             - containerPort: 8080
@@ -26,7 +26,7 @@ spec:
             - name: API_ROOT_PATH
               value: "/flood"
             - name: VERSION
-              value: 0.9.8
+              value: 0.9.9
             - name: API_DOMAIN
               valueFrom:
                 configMapKeyRef:
