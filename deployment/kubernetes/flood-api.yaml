@@ -61,19 +61,6 @@ spec:
     forceSlash: true
 ---
 apiVersion: traefik.io/v1alpha1
-kind: Middleware
-metadata:
-  name: cors-flood
-spec:
-  headers:
-    accessControlAllowMethods:
-      - "GET"
-    accessControlAllowHeaders:
-      - "*"
-    accessControlAllowOriginList:
-      - "*"
----
-apiVersion: traefik.io/v1alpha1
 kind: IngressRoute
 metadata:
   name: flood-api
@@ -82,11 +69,23 @@ spec:
     - websecure
   routes:
   - kind: Rule
-    match: PathPrefix(`/flood`) && !PathPrefix(`/flood/metrics`)
+    match: PathPrefix(`/flood`) && !PathPrefix(`/flood/metrics`) && HeadersRegexp(`Authorization`, `.+`)
     services:
     - kind: Service
       name: flood-api
       port: 80
     middlewares:
     - name: stripprefix-flood
-    - name: cors-flood 
+    - name: traefikmiddleware-cors@kubernetescrd
+    - name: traefikmiddleware-jwt@kubernetescrd
+    - name: traefikmiddleware-rate-limit-registered@kubernetescrd
+  - kind: Rule
+    match: PathPrefix(`/flood`) && !PathPrefix(`/flood/metrics`) && !HeadersRegexp(`Authorization`, `.+`)
+    services:
+    - kind: Service
+      name: flood-api
+      port: 80
+    middlewares:
+    - name: stripprefix-flood
+    - name: traefikmiddleware-cors@kubernetescrd
+    - name: traefikmiddleware-rate-limit-anonymous@kubernetescrd
